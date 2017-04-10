@@ -9,7 +9,7 @@ function start()
 	{
 	
 	
-	result='[{"schedule": {'+
+	/* result='[{"schedule": {'+
 		     '"23-3-2017": [{"name": "Sleep","startTime": "06:00","endTime": "08:30"}],'+
 		     '"22-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"24-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
@@ -18,7 +18,7 @@ function start()
 		     '"26-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"20-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}]},'+
 		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
-		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]';
+		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; */
 	result=JSON.parse(localStorage.setItem("data"));
 	p=result[0].schedule;
 	//alert(result[0].schedule[0]);
