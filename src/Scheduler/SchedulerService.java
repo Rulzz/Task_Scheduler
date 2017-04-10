@@ -170,7 +170,7 @@ public class SchedulerService {
 					schedule.add(new Slot(Task.TaskName.Revision.name(), DateUtils.addHours( toSplit.getEndTime(), -revisionTime), toSplit.getEndTime()));
 					
 				} else {
-					messages.add("Revision task not created for date : " + dayFormat.format(task.getTargetTime()));
+					messages.add("Could not allocated " + revisionTime + " hr(s) Revision task for date : " + dayFormat.format(task.getTargetTime()));
 				}
 			}
 		}
@@ -203,13 +203,13 @@ public class SchedulerService {
 		boolean containingMax=false;
 		boolean containingMinMax=false;
 		for(Slot slot: freeSlots) {
-			if((slot.getStartTime().after(minTime) || slot.getStartTime().getTime() == minTime.getTime()) && slot.getStartTime().before(maxTime)){
+			if(slot.getStartTime().getTime() >= minTime.getTime() && slot.getStartTime().getTime() < maxTime.getTime()){
 				if(helper.getDifference(slot.getStartTime(), slot.getEndTime()) >= duration) {
 					toSplit=slot;
 					containingMax=true;
 					break;
 				} 
-			} else if(slot.getEndTime().after(minTime) && (slot.getEndTime().before(maxTime) || slot.getEndTime().getTime() == maxTime.getTime())) {
+			} else if(slot.getEndTime().getTime() > minTime.getTime() && slot.getEndTime().getTime() <= maxTime.getTime()) {
 				if(helper.getDifference(minTime, slot.getEndTime()) >= duration) {
 					toSplit=slot;
 					containingMin=true;
@@ -239,7 +239,7 @@ public class SchedulerService {
 			
 			schedule.add(new Slot(taskName, minTime, DateUtils.addHours( minTime, duration)));
 		} else {
-			messages.add("Missing " + taskName + " on day : " + dayFormat.format(minTime));
+			messages.add("Could not allocate " + duration + " hr(s) to " + taskName + " on day : " + dayFormat.format(minTime));
 		}
 		
 	}
@@ -261,7 +261,7 @@ public class SchedulerService {
 			
 			schedule.add(lecture);
 			schedule.add(new Slot(Task.TaskName.Travel.name(), helper.subtractStringTime(lecture.getStartTime(), travelTime), lecture.getStartTime()));
-			schedule.add(new Slot(Task.TaskName.Travel.name(),lecture.getEndTime(), helper.addStringTime(lecture.getStartTime(), travelTime)));
+			schedule.add(new Slot(Task.TaskName.Travel.name(), lecture.getEndTime(), helper.addStringTime(lecture.getEndTime(), travelTime)));
 			
 		}
 		
