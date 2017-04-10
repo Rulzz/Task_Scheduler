@@ -1,0 +1,37 @@
+{
+	"sleepStartTime": "22:30",
+	"sleepEndTime": "8:15",
+	"travelTime": "0:30",
+	"startDate": 1489982400000,
+	"endDate": 1490587140000,
+	"lectures": [{
+			"name": "DS Algo",
+			"startTime": 1490383200000,
+			"endTime": 1490388000000
+		}, {
+			"name": "Intro to AI",
+			"startTime": 1490222400000,
+			"endTime": 1490232600000
+		}
+	],
+	"tasks": [{
+			"name": "DS Algo",
+			"type": "Exam",
+			"startTime": 1489982400000,
+			"targetTime": 1490383200000,
+			"timeToComplete": "6"
+		}, {
+			"name": "Intro to AI",
+			"type": "ExtraEffort",
+			"startTime": 1489982400000,
+			"targetTime": 1490587140000,
+			"timeToComplete": "3:30"
+		}, {
+			"name": "Reading",
+			"type": "General",
+			"startTime": 1489982400000,
+			"targetTime": 1490587140000,
+			"timeToComplete": "3"
+		}
+	]
+}
