@@ -1,16 +1,58 @@
 <!doctype html>
 <html lang="en" class="no-js">
+<script>
+	if( !window.jQuery ) document.write('<script src="resources/js/jquery-3.0.0.min.js"><\/script>');
+</script>
+<script src="resources/js/main.js"></script>
 <script type="text/javascript">
 function start()
 	{
-	alert("in   "+localStorage.getItem("data"));
-	
-	x="<li class='single-even' data-start='"+09:30+"' data-end='"+10:30+"' data-content='event-abs-circuit' data-event='"+event-1+"'>"+
-	"<a href='#0'><em class='event-name'>"+TASK1+"</em></a></li>";
 	
 	
+	result='[{"schedule": {'+
+		     '"23-3-2017": [{"name": "Sleep","startTime": "06:00","endTime": "08:30"}],'+
+		     '"22-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"24-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"21-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"25-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"26-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"20-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}]},'+
+		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
+		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]';
+	result=JSON.parse(localStorage.setItem("data"));
+	p=result[0].schedule;
+	//alert(result[0].schedule[0]);
+	x="";
+	for (var key in p) {
+  if (p.hasOwnProperty(key)) {
+	  x+="<li class='events-group'><div class='top-info'><span>"+key+"</span></div>"+
+	    "<ul>";
+	  for(i=0;i<p[key].length;i++)
+  	{
+  	alert(key+"name"+p[key][i].name+"startTime"+p[key][i].startTime+"endTime"+p[key][i].endTime);
+  	 x+="<li class='single-event' data-start='"+p[key][i].startTime+"' data-end='"+p[key][i].endTime+"'"+ 
+     "data-content='event-abs-circuit' data-event='event-1'>"+
+	   "<a href='#0'><em class='event-name'>"+p[key][i].name+"</em></a></li>"; 
+  	}
+	  x+="</ul></li>"; 
+  }
+}
+	
+	
+	
+	
+	alert(x);
+	alert(document.getElementById("test").style.top);
+	document.getElementById("data").innerHTML=x;
+	
+	mainLoader();
 	}
 </script>
+
+<script src="resources/js/modernizr.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,9 +65,9 @@ function start()
 </head>
 <body onload="start()">
 <div class="cd-schedule loading">
-	<div class="timeline">
+	<div class="timeline" id="test">
 		<ul>
-			<li><span>00:00</span></li>
+			<li ><span >00:00</span></li>
 			<li><span>00:30</span></li>
 			<li><span>01:00</span></li>
 			<li><span>01:30</span></li>
@@ -77,9 +119,9 @@ function start()
 	</div> <!-- .timeline -->
 
 	<div class="events">
-		<ul>
+		<ul id="data">
 		
-			 <li class="events-group">
+			  <li class="events-group">
 				<div class="top-info"><span>Sunday</span></div>
 
 				<ul>
@@ -107,23 +149,13 @@ function start()
 				<div class="top-info"><span>Monday</span></div>
 
 				<ul>
-					<li class="single-event" data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1">
+					<li class="single-event" data-start="00:00" data-end="08:30" data-content="event-abs-circuit" data-event="event-1">
 						<a href="#0">
 							<em class="event-name">TASK1</em>
 						</a>
 					</li>
 
-					<li class="single-event" data-start="11:00" data-end="12:30" data-content="event-rowing-workout" data-event="event-2">
-						<a href="#0">
-							<em class="event-name">TASK2</em>
-						</a>
-					</li>
-
-					<li class="single-event" data-start="14:00" data-end="15:15"  data-content="event-yoga-1" data-event="event-3">
-						<a href="#0">
-							<em class="event-name">TASK3</em>
-						</a>
-					</li>
+					
 				</ul>
 			</li>
 
@@ -288,11 +320,6 @@ function start()
 
 	<div class="cover-layer"></div>
 </div> <!-- .cd-schedule -->
-<script src="resources/js/modernizr.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script>
-	if( !window.jQuery ) document.write('<script src="resources/js/jquery-3.0.0.min.js"><\/script>');
-</script>
-<script src="resources/js/main.js"></script> <!-- Resource jQuery -->
+ <!-- Resource jQuery -->
 </body>
 </html>

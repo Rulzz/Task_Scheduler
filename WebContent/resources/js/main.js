@@ -1,3 +1,7 @@
+
+
+
+function mainLoader(){
 jQuery(document).ready(function($){
 	var transitionEnd = 'webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend';
 	var transitionsSupported = ( $('.csstransitions').length > 0 );
@@ -97,8 +101,8 @@ jQuery(document).ready(function($){
 				eventHeight = self.eventSlotHeight*duration/self.timelineUnitDuration;
 			
 			$(this).css({
-				top: (eventTop +8) +'px',
-				height: (eventHeight+1)+'px',
+				top: (eventTop) +'px',
+				height: (eventHeight+5)+'px',
 				width: '100.6%'
 			});
 		});
@@ -379,4 +383,4 @@ jQuery(document).ready(function($){
 			'transform': value
 		});
 	}
-});
+})};

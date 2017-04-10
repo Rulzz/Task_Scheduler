@@ -35,6 +35,31 @@ $(function(){
 	
 	});
 	});
+	
+	
+$(function(){
+	$( "#datestart" ).datepicker();
+	//Pass the user selected date format
+	
+	$( "#format" ).change(function() {
+		
+	$( "#datestart" ).datepicker( "option", "dateFormat", $(this).val() );
+	
+	});
+	});
+	
+	
+	
+$(function(){
+	$( "#dateend" ).datepicker();
+	//Pass the user selected date format
+	
+	$( "#format" ).change(function() {
+		
+	$( "#dateend" ).datepicker( "option", "dateFormat", $(this).val() );
+	
+	});
+	});
 x=[];
 function add(ty)
 	{
@@ -255,11 +280,12 @@ z=lec[m].split("|")[4];
 				task+="{'name': "+x[m]+",'type':'Regular','targetTime':'"+ lec[m].split("|")[5]+"','timeToComplete':'"+lec[m].split("|")[3]+"'},";
 			 */			 
 			}
+		alert(JSON.stringify(event_details));
 		for(n=0;n<event_details.length;n++)
 			{
 			eventend= new Date(event_details[n].dates + ' ' + lec[m].split("|")[0]); 
 			if(x[m]==event_details[n].lecture)
-				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','targetTime':'"+ eventend.getTime()+"','timeToComplete':'"+event_details[n].time+"'},";
+				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','startTime':'"+event_details[n].start+"','targetTime':'"+ eventend.getTime()+"','timeToComplete':'"+event_details[n].time+"'},";
 			}
 /* lect="name": "DS Algo","startTime": 1490383200000,"endTime": 1490388000000 */
 	}
@@ -268,10 +294,10 @@ z=lec[m].split("|")[4];
 		task+="{'name': '"+x[l]+"','type':'ExtraEffort','targetTime':'"+ lec[l].split("|")[5]+"','timeToComplete':'"+extra[l]+"'},";
 		}
 	task+="{'name': '"+other+"','type':'General','targetTime':'"+ other_end+"','timeToComplete':'"+other_time+"'},";
-startdate = day + "/" + month + "/" + year;
-enddate = (day+7) + "/" + month + "/" + year;
+startdate = new Date(document.getElementById("datestart").value+' '+"00:00");
+enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 		 pass="{'sleepStartTime': "+sl_start+",'sleepEndTime':"+sl_end+",'travelTime':"+trstart_time+
-			",'startDate':"+ startdate+",'endDate':"+ enddate+",'lectures': [" +sub+"],'tasks':"+task+"]}"; 
+			",'startDate':"+ startdate.getTime()+",'endDate':"+ enddate.getTime()+",'lectures': [" +sub+"],'tasks':"+task+"]}"; 
 			
 			alert(pass);
 			misc=[];
@@ -292,7 +318,7 @@ enddate = (day+7) + "/" + month + "/" + year;
 			localStorage.setItem("x",JSON.stringify(x));
 			localStorage.setItem("extra",JSON.stringify(extra));
 			
-			url="http://192.168.1.5:8080/Task_Scheduler/rest/CallenderResource/schedule";
+		 	url="http://192.168.1.5:8080/Task_Scheduler/rest/CallenderResource/schedule";
 			
 			$.ajax({
 				
@@ -305,6 +331,8 @@ enddate = (day+7) + "/" + month + "/" + year;
 				success: function(result)
 				{
 					alert("in");
+					localStorage.setItem("data",JSON.stringify(result));
+					document.getElementById("sch").submit();
 					
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown)
@@ -312,10 +340,11 @@ enddate = (day+7) + "/" + month + "/" + year;
 					alert("error");
 				},
 				
-			});
+			}); 
 		
-		//	localStorage.setItem("data",data);
-		//document.getElementById("sch").submit();
+		//	
+			
+		
 	}
 		
 	dates=[];
@@ -335,6 +364,7 @@ enddate = (day+7) + "/" + month + "/" + year;
 	        lecture: subject,
 	        events: 'Regular',
 	        dates: document.getElementById("datePick" ).value,
+	        start: '00:00',
 	        time: '00:00'
 	    });
 		
@@ -414,6 +444,12 @@ function addevent()
 			{
 			event_details[i].events=event;
 			event_details[i].time=document.getElementById("hr_study").value;
+			
+			j=(document.getElementById("myLocalDate").value).replace("T", "' '");
+			alert(j);
+			j=new Date(j)
+			alert(j.getTime());
+			event_details[i].start=document.getElementById("myLocalDate").value;
 			counter++
 			}		
 	}
@@ -424,6 +460,7 @@ function addevent()
         lecture: subject,
         events: event,
         dates: date,
+        start: document.getElementById("myLocalDate").value, 
         time: document.getElementById("hr_study").value
     });
 	}
@@ -442,7 +479,7 @@ misc=[];
 
 function load()
 	{
-	localStorage.clear();
+	//localStorage.clear();
 	misc=(JSON.parse(localStorage.getItem("misc")));
 	l_events=JSON.parse(localStorage.getItem("events"));
 	l_lec=JSON.parse(localStorage.getItem("lec"));
@@ -498,6 +535,14 @@ function load()
 <legend><span class="number">1</span>Info</legend>
 <input type="text" id='name' name="field1" placeholder="Your Name *" required>
 <input type="text" id='title' name="field2" placeholder="Title *">
+
+
+<input id="datestart" type="text"  placeholder="Calender Start Date">
+
+
+<input id="dateend" type="text" placeholder="Calender End Date" >
+
+
 <div style="display: inline-flex;">
 <input id='lecture' type="text" name="field2" placeholder="Lecture Name" style="width: 410px;">
 <input onclick="add()" type="button" value="Add" style="width: 10px; height: 10px; padding: 6px 35px 22px 5px; margin-left: 20px;" />
@@ -535,7 +580,7 @@ onchange="calend()" id="datePick" type="text"/ >
   <input type="time" name="end_time" id='end_time'>
   </div>
 
-
+<h3>Tasks</h3>
 <div style="display: inline-flex;"> 
 <select id='event' style="width: 150px;">
 <option value="" disabled selected>Event</option>
@@ -547,6 +592,25 @@ onchange="calend()" id="datePick" type="text"/ >
 
 </select>
 </div>
+
+<input style="font-family: Georgia, 'Times New Roman', Times, serif;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box; 
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box; 
+    background-color: #e8eeef;
+    color:#8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;"type="datetime-local" id="myLocalDate" value="yyyy-mm-ddThh:mm">
+
 <div style="display: inline-flex;">
  <a style="display: inline-table;    padding-top: 10px;">Hours of Study</a>
 <input id='hr_study' style="width: 150px;" type="time" placeholder="Hours of Study">
@@ -584,6 +648,8 @@ onchange="calend()" id="datePick" type="text"/ >
   <input type="time" id="trend_time"> -->
   </div>
   
+  
+  <div style="display: none;">
   <div style="display: none;" id='extra'>
   <h3>Extra Effort</h3>
   <select onchange='change(extra)'style="display: none;" id='extralist' style="width: 410px;">
@@ -602,6 +668,7 @@ onchange="calend()" id="datePick" type="text"/ >
   <input  id="dateother" type="text"/ placeholder="Date">
 <a style="display: inline-table; padding-top: 10px;">Hours</a>
   <input type="time" id="other_time">
+</div>
 </div>
 <!-- <textarea name="field3" placeholder="About Your School"></textarea> -->
 </fieldset>
