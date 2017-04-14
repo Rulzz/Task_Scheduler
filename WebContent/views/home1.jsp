@@ -271,33 +271,41 @@ z=lec[m].split("|")[4];
 			var event = e.options[parseInt(lec[m].split("|")[2])].value;
 			
 		    var dateObjstart = new Date(z.split(",")[n] + ' ' + lec[m].split("|")[0]);
-		    var dateObjend = new Date(z.split(",")[n] + ' ' + lec[m].split("|")[0]);
+		    var dateObjend = new Date(z.split(",")[n] + ' ' + lec[m].split("|")[1]);
 		    
-			sub+="{'name': '"+x[m]+"','startTime':'"+ dateObjstart.getTime()+"','endTime': '"+dateObjend.getTime()+"'},";
+			sub+="{'name': '"+x[m]+"','startTime':"+ dateObjstart.getTime()+",'endTime': "+dateObjend.getTime()+"}";
+			
 			/* if(z.split(",")[n]==lec[m].split("|")[5])
 			task+="{'name': '"+x[m]+"','type':'"+event+"','targetTime':'"+ lec[m].split("|")[5]+"','timeToComplete':'"+lec[m].split("|")[3]+"'},";
 			else
 				task+="{'name': "+x[m]+",'type':'Regular','targetTime':'"+ lec[m].split("|")[5]+"','timeToComplete':'"+lec[m].split("|")[3]+"'},";
 			 */			 
 			}
+		if(m!=(lec.length-1)) {
+			sub+=",";
+		}
 		alert(JSON.stringify(event_details));
 		for(n=0;n<event_details.length;n++)
 			{
 			eventend= new Date(event_details[n].dates + ' ' + lec[m].split("|")[0]); 
 			if(x[m]==event_details[n].lecture)
-				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','startTime':'"+event_details[n].start+"','targetTime':'"+ eventend.getTime()+"','timeToComplete':'"+event_details[n].time+"'},";
+				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','startTime':"+event_details[n].start+",'targetTime':"+ eventend.getTime()+",'timeToComplete':'"+event_details[n].time+"'}";
+				
 			}
+		if(m!=(lec.length-1)) {
+			task+=",";
+		}
 /* lect="name": "DS Algo","startTime": 1490383200000,"endTime": 1490388000000 */
 	}
-	for(l=0;l<extra.length;l++)
+	/* for(l=0;l<extra.length;l++)
 		{
 		task+="{'name': '"+x[l]+"','type':'ExtraEffort','targetTime':'"+ lec[l].split("|")[5]+"','timeToComplete':'"+extra[l]+"'},";
-		}
-	task+="{'name': '"+other+"','type':'General','targetTime':'"+ other_end+"','timeToComplete':'"+other_time+"'},";
+		} */
+/* 	task+="{'name': '"+other+"','type':'General','targetTime':'"+ other_end+"','timeToComplete':'"+other_time+"'},"; */
 startdate = new Date(document.getElementById("datestart").value+' '+"00:00");
 enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
-		 pass="{'sleepStartTime': "+sl_start+",'sleepEndTime':"+sl_end+",'travelTime':"+trstart_time+
-			",'startDate':"+ startdate.getTime()+",'endDate':"+ enddate.getTime()+",'lectures': [" +sub+"],'tasks':"+task+"]}"; 
+		 pass="{'sleepStartTime': '"+sl_start+"','sleepEndTime':'"+sl_end+"','travelTime':'"+trstart_time+
+			"','startDate':"+ startdate.getTime()+",'endDate':"+ enddate.getTime()+",'lectures': [" +sub+"],'tasks': ["+task+"]}"; 
 			
 			alert(pass);
 			misc=[];
@@ -318,7 +326,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 			localStorage.setItem("x",JSON.stringify(x));
 			localStorage.setItem("extra",JSON.stringify(extra));
 			
-		 	url="http://192.168.1.5:8080/Task_Scheduler/rest/CallenderResource/schedule";
+		 	url="http://localhost:8080/Task_Scheduler/rest/CallenderResource/schedule";
 			
 			$.ajax({
 				
@@ -449,7 +457,7 @@ function addevent()
 			alert(j);
 			j=new Date(j)
 			alert(j.getTime());
-			event_details[i].start=document.getElementById("myLocalDate").value;
+			event_details[i].start=j.getTime();
 			counter++
 			}		
 	}

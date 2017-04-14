@@ -19,8 +19,8 @@ function start()
 		     '"20-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}]},'+
 		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
 		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; */
-	result=JSON.parse(localStorage.setItem("data"));
-	p=result[0].schedule;
+	result=JSON.parse(localStorage.getItem("data"));
+	p=result[2].schedule;
 	//alert(result[0].schedule[0]);
 	x="";
 	for (var key in p) {
@@ -115,6 +115,7 @@ function start()
 			<li><span>22:30</span></li>
 			<li><span>23:00</span></li>
 			<li><span>23:30</span></li>
+			<li><span>23:59</span></li>
 		</ul>
 	</div> <!-- .timeline -->
 
