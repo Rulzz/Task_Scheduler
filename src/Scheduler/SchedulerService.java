@@ -275,7 +275,7 @@ public class SchedulerService {
 			
 			//Sleep Slots
 			Slot sleepMorningSlot = new Slot(Task.TaskName.Sleep.name(), day, helper.addStringTime(day, input.getSleepEndTime()));
-			Slot sleepNightSlot = new Slot(Task.TaskName.Sleep.name(), helper.addStringTime(day, input.getSleepStartTime()), nextDay);
+			Slot sleepNightSlot = new Slot(Task.TaskName.Sleep.name(), helper.addStringTime(day, input.getSleepStartTime()), DateUtils.addMinutes(nextDay, -1));
 			//daily chores
 			Slot dailyChoresSlot = new Slot(Task.TaskName.Chores.name(), sleepMorningSlot.getEndTime(), DateUtils.addHours(sleepMorningSlot.getEndTime(), 2));
 			schedule.add(sleepMorningSlot);

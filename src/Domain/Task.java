@@ -69,7 +69,7 @@ public class Task implements Comparable<Task>{
 	}
 
 	public enum TaskName {
-		Lecture, Sleep, Travel, Exam, Assignment, ExtraEffort, Revision, General, Chores, Lunch, Dinner;
+		Lecture, Sleep, Travel, Exam, Assignment, ExtraEffort, Revision, General, Chores, Lunch, Dinner, Regular;
 	}
 	
 	
