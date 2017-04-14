@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import DTO.SchedulerInput;
 import Domain.Slot;

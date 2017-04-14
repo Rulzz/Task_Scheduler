@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -18,7 +17,6 @@ import DTO.SchedulerInput;
 import Domain.Callender;
 import Domain.Slot;
 import Domain.Task;
-import Test.ScheduleInvoker;
 
 public class SchedulerService {
 	
