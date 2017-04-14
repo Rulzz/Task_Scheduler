@@ -8,7 +8,7 @@
 function start()
 	{
 	
-	
+	     
 	 result='[{"schedule": {'+
 		     '"23-3-2017": [{"name": "Sleep","startTime": "06:00","endTime": "08:30"}],'+
 		     '"22-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
