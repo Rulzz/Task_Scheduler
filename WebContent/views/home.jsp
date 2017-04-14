@@ -9,43 +9,75 @@ function start()
 	{
 	
 	
-	/* result='[{"schedule": {'+
+	 result='[{"schedule": {'+
 		     '"23-3-2017": [{"name": "Sleep","startTime": "06:00","endTime": "08:30"}],'+
 		     '"22-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"24-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"21-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"25-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"26-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"14-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"01-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"20-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}]},'+
 		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
-		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; */
-	result=JSON.parse(localStorage.getItem("data"));
-	p=result[2].schedule;
+		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; 
+		    result=JSON.parse(result);
+		    result=JSON.parse(localStorage.setItem("data"));
+	p=result[0].schedule;
 	//alert(result[0].schedule[0]);
 	x="";
+	
 	for (var key in p) {
   if (p.hasOwnProperty(key)) {
-	  x+="<li class='events-group'><div class='top-info'><span>"+key+"</span></div>"+
+	  count++;
+	  if(count>7)
+		  x+="<div id='"+count+"' style='display:none;'><li class='events-group'>"
+	  else
+	  x+="<div id='"+count+"'><li class='events-group'>";
+	  x+="<div class='top-info'><span>"+key+"</span></div>"+
 	    "<ul>";
 	  for(i=0;i<p[key].length;i++)
   	{
   	alert(key+"name"+p[key][i].name+"startTime"+p[key][i].startTime+"endTime"+p[key][i].endTime);
   	 x+="<li class='single-event' data-start='"+p[key][i].startTime+"' data-end='"+p[key][i].endTime+"'"+ 
-     "data-content='event-abs-circuit' data-event='event-1'>"+
+     "data-content='' data-event='event-"+(i+1)+"'>"+
 	   "<a href='#0'><em class='event-name'>"+p[key][i].name+"</em></a></li>"; 
   	}
-	  x+="</ul></li>"; 
+	  x+="</ul></li></div>"; 
   }
 }
 	
 	
 	
 	
-	alert(x);
-	alert(document.getElementById("test").style.top);
+	
 	document.getElementById("data").innerHTML=x;
 	
 	mainLoader();
+	
+	}
+count=0;
+click=1;
+dis=8;
+	function right() {
+		if(dis<=count)
+			{
+		document.getElementById(click).setAttribute("style","display:none;");
+		click++;
+		document.getElementById(dis).setAttribute("style","display:");
+		dis++;
+			}
+	}
+	
+	function left() {
+		if(click>1)
+			{
+		dis--;
+		document.getElementById(dis).setAttribute("style","display:none;");
+		click--;
+		document.getElementById(click).setAttribute("style","display:");
+			}
+		
 	}
 </script>
 
@@ -64,7 +96,16 @@ function start()
 	<title>Schedule Template | CodyHouse</title>
 </head>
 <body onload="start()">
+<div>
+
+
 <div class="cd-schedule loading">
+
+<div style="margin-left: 1390px; margin-top: 10px; position: absolute; cursor: pointer;">
+<img onclick="right()" id="image_canv" src="resources/image/right.png" style="height: 30px;
+">
+</div>
+
 	<div class="timeline" id="test">
 		<ul>
 			<li ><span >00:00</span></li>
@@ -115,7 +156,6 @@ function start()
 			<li><span>22:30</span></li>
 			<li><span>23:00</span></li>
 			<li><span>23:30</span></li>
-			<li><span>23:59</span></li>
 		</ul>
 	</div> <!-- .timeline -->
 
@@ -320,7 +360,14 @@ function start()
 	</div>
 
 	<div class="cover-layer"></div>
+	<div style="position: absolute; transform:rotate(180deg);  margin-top: 10px; cursor: pointer;">
+  <img onclick="left()" id="image_canv" src="resources/image/right.png" style="height: 30px;
+    margin-left: 20px; ">
+	</div>
 </div> <!-- .cd-schedule -->
  <!-- Resource jQuery -->
+ 
+ </div>
+ 
 </body>
 </html>
