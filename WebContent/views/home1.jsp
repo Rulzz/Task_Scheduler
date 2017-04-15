@@ -60,7 +60,7 @@ $(function(){
 	
 	});
 	});
-x=[];
+var x=[];
 function add(ty)
 	{
 	if(ty=='ini')
@@ -81,6 +81,22 @@ function add(ty)
 	document.getElementById("extralist").setAttribute("style","display:");
 	document.getElementById("lecture").value="";
 	}
+	
+var other_task_list=[];
+function add_other()
+{
+
+	other_task_list.push(document.getElementById("other_task").value);
+y="";
+for(i=0;i<other_task_list.length;i++)
+	{
+	y+="<option value='"+other_task_list[i]+"'>"+other_task_list[i]+"</option>"
+	}
+document.getElementById("other_list").setAttribute("style","display:");
+document.getElementById("other_task_list").innerHTML=y;
+document.getElementById("other_task").value="";
+
+}
 
 function change(typ)
 	{
@@ -99,7 +115,7 @@ function change(typ)
 		alert("1111");
 		for(i=0;i<event_details.length;i++)
 		{
-			alert("aaa"+event_details[i].lecture+"...."+x[ty]);
+			alert("aaa"+event_details[i]+"....");
 			if(event_details[i].lecture==x[ty])
 				{
 					tag+=event_details[i].events +" on "+event_details[i].dates+"<br><br>";
@@ -238,7 +254,30 @@ function remove()
 	//document.getElementById("extra").setAttribute("style","display:");
 	}
 	
-	
+function remove_other_task()
+	{
+	y="";
+	var r = document.getElementById("other_task_list");
+	task=r.options[r.selectedIndex].innerHTML;
+	index=(-1);
+	for(i=0;i<other_task_obj.length;i++)
+	{
+	if(other_task_obj[i].task==task)
+		index=i;
+	}
+	alert("size "+other_task_obj.length);
+	other_task_obj.splice(index, 1);
+	other_task_list.splice(r.selectedIndex, 1);
+	alert("size after "+other_task_obj.length);
+    r.remove(r.selectedIndex);
+    
+
+	if(other_task_list.length==0)
+		{
+		document.getElementById("other_list").setAttribute("style","display:none");	
+		}
+	}
+
 	function submit()
 	{
 		alert("sub");
@@ -272,9 +311,10 @@ z=lec[m].split("|")[4];
 			
 		    var dateObjstart = new Date(z.split(",")[n] + ' ' + lec[m].split("|")[0]);
 		    var dateObjend = new Date(z.split(",")[n] + ' ' + lec[m].split("|")[1]);
-		    
-			sub+="{'name': '"+x[m]+"','startTime':"+ dateObjstart.getTime()+",'endTime': "+dateObjend.getTime()+"}";
-			
+		   
+			sub+="{'name': '"+x[m]+"','startTime':"+ dateObjstart.getTime()+",'endTime': "+dateObjend.getTime()+"},";
+			 if(n!=((z.split(",").length)-1))
+				 sub+=",";
 			/* if(z.split(",")[n]==lec[m].split("|")[5])
 			task+="{'name': '"+x[m]+"','type':'"+event+"','targetTime':'"+ lec[m].split("|")[5]+"','timeToComplete':'"+lec[m].split("|")[3]+"'},";
 			else
@@ -289,12 +329,30 @@ z=lec[m].split("|")[4];
 			{
 			eventend= new Date(event_details[n].dates + ' ' + lec[m].split("|")[0]); 
 			if(x[m]==event_details[n].lecture)
-				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','startTime':"+event_details[n].start+",'targetTime':"+ eventend.getTime()+",'timeToComplete':'"+event_details[n].time+"'}";
-				
+				{
+				j=(event_details[n].start).replace("T", "' '");
+				alert(j);
+				j=new Date(j)
+				alert(j.getTime());
+				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','startTime':"+j.getTime()+",'targetTime':"+ eventend.getTime()+",'timeToComplete':'"+event_details[n].time+"'}";
+				}
+			if(n!=((event_details.length)-1))
+				task+=",";
 			}
 		if(m!=(lec.length-1)) {
 			task+=",";
 		}
+		
+		for(i=0;other_task_obj.length;i++)
+			{
+			s=(other_task_obj[i].start).replace("T", "' '");
+			s=new Date(j)
+			e=(other_task_obj[i].end).replace("T", "' '");
+			e=new Date(j)
+			task+="{'name': '"+other_task_obj[i].task+"','type':'"+other_task_obj[i].events+"','startTime':"+s.getTime()+",'targetTime':"+ e.getTime()+",'timeToComplete':'"+other_task_obj[i].time+"'}";
+			if(i!=((other_task_obj.length)-1))
+				task+=",";
+			}
 /* lect="name": "DS Algo","startTime": 1490383200000,"endTime": 1490388000000 */
 	}
 	/* for(l=0;l<extra.length;l++)
@@ -318,13 +376,16 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 				date: other_end,
 				time: other_time,
 				name: name,
-				title: title
+				title: title,
+				startdate: document.getElementById("datestart").value,
+				enddate: document.getElementById("dateend").value
 		    });
 			localStorage.setItem("events",JSON.stringify(event_details));
 			localStorage.setItem("misc",JSON.stringify(misc));
 			localStorage.setItem("lec",JSON.stringify(lec));
 			localStorage.setItem("x",JSON.stringify(x));
 			localStorage.setItem("extra",JSON.stringify(extra));
+			//localStorage.setItem("cal",(startdate+","+enddate));
 			
 		 	url="http://localhost:8080/Task_Scheduler/rest/CallenderResource/schedule";
 			
@@ -453,11 +514,8 @@ function addevent()
 			event_details[i].events=event;
 			event_details[i].time=document.getElementById("hr_study").value;
 			
-			j=(document.getElementById("myLocalDate").value).replace("T", "' '");
-			alert(j);
-			j=new Date(j)
-			alert(j.getTime());
-			event_details[i].start=j.getTime();
+			
+			event_details[i].start=document.getElementById("myLocalDate").value;
 			counter++
 			}		
 	}
@@ -472,7 +530,7 @@ function addevent()
         time: document.getElementById("hr_study").value
     });
 	}
-	alert(event+"    "+date+"   "+event_details.length);
+	
 	tag+="<h4>Events</h4>";
 	for(i=0;i<event_details.length;i++)
 		{
@@ -525,9 +583,84 @@ function load()
 		document.getElementById("other_time").value=misc[0].time;  
 		document.getElementById("trstart_time").value=misc[0].travelTime;
 		document.getElementById("dateother").value=misc[0].date;
+		document.getElementById("datestart").value=misc[0].startdate;
+		document.getElementById("dateend").value=misc[0].enddate;
 		}
 	}
+function task_change()
+	{
+	var e = document.getElementById("list");
+	var cur_sub = e.options[e.selectedIndex].innerHTML;
+	e=document.getElementById("event");
+	cur_task=e.options[e.selectedIndex].innerHTML;
+	for(i=0;i<event_details.length;i++)
+		{
+		//alert(cur_task+"....."+event_details[i].events);
+		if(event_details[i].lecture==cur_sub&&event_details[i].events==cur_task)
+			{
+			/* var date = new Date(event_details[i].start*1000);
+			alert(date);
+			var minutes = "0" + date.getMinutes();
+			var seconds = "0" + date.getSeconds(); */
+			document.getElementById("myLocalDate").value=event_details[i].start;
+			//document.getElementById("myLocalDate").value=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+"T"+'0'+date.getHours() + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+			
+			document.getElementById("hr_study").value=event_details[i].time;
+			}
+		}
+	/* event_details.push({
+        lecture: subject,
+        events: event,
+        dates: date,
+        start: document.getElementById("myLocalDate").value, 
+        time: document.getElementById("hr_study").value
+    }); */
+	}
+	
+var other_task_obj=[];
+function save_other()
+{
+	var e = document.getElementById("other_task_list");
+	var cur_task = e.options[e.selectedIndex].innerHTML;
+	//alert(cur_task+"..."+document.getElementById("other_task_typ").value)
+	  //  other_task_typ
+	 other_task_obj.push({
+        task: cur_task,
+        events: document.getElementById("other_task_typ").value,
+        end: document.getElementById("other_end").value,
+        start: document.getElementById("other_start").value, 
+        time: document.getElementById("hrs").value
+    }); 
+	alert(other_task_obj[0].task);
+}
 
+function change_task(task)
+	{
+	alert(task+".....");
+	var index=(-1);
+	for(i=0;i<other_task_obj.length;i++)
+		{
+		if(other_task_obj[i].task==task)
+			index=i;
+		}
+	if(index==-1)
+		{
+		document.getElementById("other_end").value="";
+		document.getElementById("other_start").value="";
+		document.getElementById("hrs").value="";
+		document.getElementById("other_task_typ").selectedIndex=0;
+		}
+	else
+		{
+		document.getElementById("other_end").value=other_task_obj[index].end;
+		document.getElementById("other_start").value=other_task_obj[index].start;
+		document.getElementById("hrs").value=other_task_obj[index].time;
+		if(other_task_obj[index].events=="Other")
+			document.getElementById("other_task_typ").selectedIndex=1;
+		else
+			document.getElementById("other_task_typ").selectedIndex=0;
+		}
+	}
 </script>
 
 <head>
@@ -590,7 +723,7 @@ onchange="calend()" id="datePick" type="text"/ >
 
 <h3>Tasks</h3>
 <div style="display: inline-flex;"> 
-<select id='event' style="width: 150px;">
+<select onchange="task_change()" id='event' style="width: 150px;">
 <option value="" disabled selected>Event</option>
 <option value="Exam">Exam</option>
 <option value="HW">HW</option>
@@ -601,6 +734,8 @@ onchange="calend()" id="datePick" type="text"/ >
 </select>
 </div>
 
+<div style="display: inline-flex;">
+Start Time
 <input style="font-family: Georgia, 'Times New Roman', Times, serif;
     background: rgba(255,255,255,.1);
     border: none;
@@ -618,11 +753,11 @@ onchange="calend()" id="datePick" type="text"/ >
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
     box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
     margin-bottom: 30px;"type="datetime-local" id="myLocalDate" value="yyyy-mm-ddThh:mm">
-
+</div>
 <div style="display: inline-flex;">
  <a style="display: inline-table;    padding-top: 10px;">Hours of Study</a>
 <input id='hr_study' style="width: 150px;" type="time" placeholder="Hours of Study">
-<input onclick="addevent()" type="button" value="Change" style="width: 10px; height: 10px; padding: 6px 35px 22px 5px; margin-left: 20px;" />
+<input onclick="addevent()" type="button" value="Change" style="width: 10px; height: 10px; padding: 6px 67px 22px 5px; margin-left: 20px;" />
  </div>
  
  <div id="added_events">
@@ -652,9 +787,79 @@ onchange="calend()" id="datePick" type="text"/ >
 
 <a style="display: inline-table;    padding-top: 10px;">Time:</a>
   <input type="time" id="trstart_time">
+  
+ </div> 
+  <h3>Other Task</h3>
+  <div style="display: inline-flex;">
+  <input id='other_task' type="text"  placeholder="Task Name" style="width: 410px;">
+  <input onclick="add_other()" type="button" value="Add" style="width: 10px; height: 10px; padding: 6px 35px 22px 5px; margin-left: 20px;" />
+  </div>
+  <div style="display: none;" id='other_list'>
+		
+		<div style="display: inline-flex;">
+			<select onchange="change_task(this.value)" id='other_task_list' style="width: 370px;">
+
+			</select>
+			<input onclick="remove_other_task()" type="button" value="Remove" style="width: 10px; height: 10px; padding: 8px 71px 22px 8px; margin-left: 20px;" />
+		</div>	
+		<select id='other_task_typ' style="width: 370px;">
+		<option value="Extra">Extra Effort</option>
+		<option value="Other">Other</option>
+		</select>
+	
+	<div style="display: inline-flex;">	
+	<a style="display: inline-table;    padding-top: 10px;">Start time:</a>
+	<input style="font-family: Georgia, 'Times New Roman', Times, serif;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box; 
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box; 
+    background-color: #e8eeef;
+    color:#8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;"type="datetime-local" id="other_start" value="yyyy-mm-ddThh:mm">
+    </div>
+    
+    <div style="display: inline-flex;">
+    <a style="display: inline-table;    padding-top: 10px;">End time:</a>
+    <input style="font-family: Georgia, 'Times New Roman', Times, serif;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box; 
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box; 
+    background-color: #e8eeef;
+    color:#8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;"type="datetime-local" id="other_end" value="yyyy-mm-ddThh:mm">
+    </div>
+    
+    <div style="display: inline-flex;">
+    <a style="display: inline-table;padding-left: 23px; padding-top: 10px;">Hours:</a>
+    <input type="time" id="hrs">
+    </div>
+    <input onclick="save_other()" type="button" value="Save" style="width: 10px; height: 10px; padding: 6px 45px 22px 5px; margin-left: 20px;" />
+</div>	
+	
+	
 <!-- <a style="display: inline-table;  margin-left:30px;   padding-top: 10px;">End time:</a>
   <input type="time" id="trend_time"> -->
-  </div>
+  
   
   
   <div style="display: none;">
