@@ -28,6 +28,7 @@ function start()
 	color=[];
 	colorindex=1;
 	
+	check=0;
 	x="";  	
 	for (var key in p) {
   if (p.hasOwnProperty(key)) {
@@ -43,32 +44,39 @@ function start()
 		  
 		if(colorindex==15)
 			colorindex=1;
-	if(color.length==0){
+	/* if(color.length==0){
 		color.push({
 	        task: p[key][i].name,
 	        color: colorindex
 	    });
 		
 		colorindex++;
-	}
-	else
+	} */
+	//else
 		{
 	 for(n=0;n<color.length;n++)	 
 		{		 
 		if(color[n].task==p[key][i].name)
-			{colorindex=color[n].color;}
-		else
 			{
-		color.push({
-	        task: p[key][i].name,
-	        color: colorindex
-	    });
-		
-		colorindex++;
+			check=1;
+			colorindex=color[n].color; 
+			alert(p[key][i].name+"  "+colorindex);
+			break;
 			}
+		
 		} 
 		}
-	
+	 if(check==0)
+		{
+		color.push({
+	        task: p[key][i].name,
+	        color: (color.length+1)
+	    });
+		
+		colorindex=color.length;
+		}
+	 check=0;
+	alert(colorindex);
   	//alert(key+"name"+p[key][i].name+"startTime"+p[key][i].startTime+"endTime"+p[key][i].endTime);
   	 x+="<li class='single-event' data-start='"+p[key][i].startTime+"' data-end='"+p[key][i].endTime+"'"+ 
      "data-content='' data-event='event-"+parseInt(colorindex)+"'>"+
