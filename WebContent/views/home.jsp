@@ -41,14 +41,15 @@ function start()
 	  for(i=0;i<p[key].length;i++)
   	{
 		  
-		  
+		if(colorindex==15)
+			colorindex=1;
 	if(color.length==0){
 		color.push({
 	        task: p[key][i].name,
-	        color: (i+1)
+	        color: colorindex
 	    });
 		
-		colorindex=(i+1);
+		colorindex++;
 	}
 	else
 		{
@@ -60,10 +61,10 @@ function start()
 			{
 		color.push({
 	        task: p[key][i].name,
-	        color: (i+1)
+	        color: colorindex
 	    });
 		
-		colorindex=(i+1);
+		colorindex++;
 			}
 		} 
 		}

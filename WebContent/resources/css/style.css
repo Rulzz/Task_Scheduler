@@ -333,6 +333,105 @@ Main Components
   background: #f7bd7f;
 }
 
+.cd-schedule .single-event[data-event="event-5"],
+.cd-schedule [data-event="event-5"] .header-bg {
+  background: #008000;
+}
+
+.cd-schedule .single-event[data-event="event-5"]:hover {
+  background: #80ff80;
+}
+
+.cd-schedule .single-event[data-event="event-6"],
+.cd-schedule [data-event="event-6"] .header-bg {
+  background: #0e0b7d;
+}
+
+.cd-schedule .single-event[data-event="event-6"]:hover {
+  background: #125e8f;
+}
+
+.cd-schedule .single-event[data-event="event-7"],
+.cd-schedule [data-event="event-7"] .header-bg {
+  background: #0c777c;
+}
+
+.cd-schedule .single-event[data-event="event-7"]:hover {
+  background: #02989f;
+}
+
+.cd-schedule .single-event[data-event="event-8"],
+.cd-schedule [data-event="event-8"] .header-bg {
+  background: #695a56;
+}
+
+.cd-schedule .single-event[data-event="event-8"]:hover {
+  background: #978e91;
+}
+
+.cd-schedule .single-event[data-event="event-9"],
+.cd-schedule [data-event="event-9"] .header-bg {
+  background: #eae251;
+}
+
+.cd-schedule .single-event[data-event="event-9"]:hover {
+  background: #dfd068;
+}
+
+.cd-schedule .single-event[data-event="event-10"],
+.cd-schedule [data-event="event-10"] .header-bg {
+  background: #b8189c;
+}
+
+.cd-schedule .single-event[data-event="event-10"]:hover {
+  background: #f845ef;
+}
+
+.cd-schedule .single-event[data-event="event-11"],
+.cd-schedule [data-event="event-11"] .header-bg {
+  background: #4036fa;
+}
+
+.cd-schedule .single-event[data-event="event-11"]:hover {
+  background: #6486cc;
+}
+
+.cd-schedule .single-event[data-event="event-12"],
+.cd-schedule [data-event="event-12"] .header-bg {
+  background: #3f855a;
+}
+
+.cd-schedule .single-event[data-event="event-12"]:hover {
+  background: #39940e;
+}
+
+.cd-schedule .single-event[data-event="event-13"],
+.cd-schedule [data-event="event-13"] .header-bg {
+  background: #d74242;
+}
+
+.cd-schedule .single-event[data-event="event-13"]:hover {
+  background: #f26060;
+}
+
+.cd-schedule .single-event[data-event="event-14"],
+.cd-schedule [data-event="event-14"] .header-bg {
+  background: #50016d;
+}
+
+.cd-schedule .single-event[data-event="event-14"]:hover {
+  background: #896ca4;
+}
+
+.cd-schedule .single-event[data-event="event-15"],
+.cd-schedule [data-event="event-15"] .header-bg {
+  background: #145f1e;
+}
+
+.cd-schedule .single-event[data-event="event-15"]:hover {
+  background: #a2e49a;
+}
+
 .cd-schedule .event-modal {
   position: fixed;
   z-index: 3;
