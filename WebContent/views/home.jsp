@@ -8,7 +8,7 @@
 function start()
 	{
 	
-	     
+	
 	 result='[{"schedule": {'+
 		     '"23-3-2017": [{"name": "Sleep","startTime": "06:00","endTime": "08:30"}],'+
 		     '"22-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
@@ -22,11 +22,13 @@ function start()
 		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
 		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; 
 		    result=JSON.parse(result);
-		    result=JSON.parse(localStorage.setItem("data"));
+		//    result=JSON.parse(localStorage.setItem("data"));
 	p=result[0].schedule;
 	//alert(result[0].schedule[0]);
-	x="";
+	color=[];
+	colorindex=1;
 	
+	x="";  	
 	for (var key in p) {
   if (p.hasOwnProperty(key)) {
 	  count++;
@@ -38,9 +40,37 @@ function start()
 	    "<ul>";
 	  for(i=0;i<p[key].length;i++)
   	{
-  	alert(key+"name"+p[key][i].name+"startTime"+p[key][i].startTime+"endTime"+p[key][i].endTime);
+		  
+		  
+	if(color.length==0){
+		color.push({
+	        task: p[key][i].name,
+	        color: (i+1)
+	    });
+		
+		colorindex=(i+1);
+	}
+	else
+		{
+	 for(n=0;n<color.length;n++)	 
+		{		 
+		if(color[n].task==p[key][i].name)
+			{colorindex=color[n].color;}
+		else
+			{
+		color.push({
+	        task: p[key][i].name,
+	        color: (i+1)
+	    });
+		
+		colorindex=(i+1);
+			}
+		} 
+		}
+	
+  	//alert(key+"name"+p[key][i].name+"startTime"+p[key][i].startTime+"endTime"+p[key][i].endTime);
   	 x+="<li class='single-event' data-start='"+p[key][i].startTime+"' data-end='"+p[key][i].endTime+"'"+ 
-     "data-content='' data-event='event-"+(i+1)+"'>"+
+     "data-content='' data-event='event-"+parseInt(colorindex)+"'>"+
 	   "<a href='#0'><em class='event-name'>"+p[key][i].name+"</em></a></li>"; 
   	}
 	  x+="</ul></li></div>"; 
