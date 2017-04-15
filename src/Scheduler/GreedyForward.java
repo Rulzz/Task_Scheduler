@@ -30,6 +30,9 @@ public class GreedyForward {
 		ArrayList<String> messages = new ArrayList<>();
 		
 		for(Task task : taskPriority) {
+			if(helper.getDuration(task.getTimeToComplete())==0f) {
+				continue;
+			}
 			Date taskStartDay = DateUtils.truncate(task.getStartTime(), Calendar.DATE);
 			Date taskEndDay = DateUtils.truncate(task.getTargetTime(), Calendar.DATE);
 			Date day = new Date();
