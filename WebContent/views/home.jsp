@@ -22,7 +22,7 @@ function start()
 		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
 		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; 
 		    result=JSON.parse(result);
-		//    result=JSON.parse(localStorage.setItem("data"));
+		    result=JSON.parse(localStorage.getItem("data"));
 	p=result[0].schedule;
 	//alert(result[0].schedule[0]);
 	color=[];
