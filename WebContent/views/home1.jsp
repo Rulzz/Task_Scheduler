@@ -312,7 +312,7 @@ z=lec[m].split("|")[4];
 		    var dateObjstart = new Date(z.split(",")[n] + ' ' + lec[m].split("|")[0]);
 		    var dateObjend = new Date(z.split(",")[n] + ' ' + lec[m].split("|")[1]);
 		   
-			sub+="{'name': '"+x[m]+"','startTime':"+ dateObjstart.getTime()+",'endTime': "+dateObjend.getTime()+"},";
+			sub+="{'name': '"+x[m]+"','startTime':"+ dateObjstart.getTime()+",'endTime': "+dateObjend.getTime()+"}";
 			 if(n!=((z.split(",").length)-1))
 				 sub+=",";
 			/* if(z.split(",")[n]==lec[m].split("|")[5])
@@ -335,25 +335,29 @@ z=lec[m].split("|")[4];
 				j=new Date(j)
 				alert(j.getTime());
 				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','startTime':"+j.getTime()+",'targetTime':"+ eventend.getTime()+",'timeToComplete':'"+event_details[n].time+"'}";
+				if(n!=((event_details.length)-1))
+					task+=",";
 				}
-			if(n!=((event_details.length)-1))
-				task+=",";
+			/*  */
 			}
-		if(m!=(lec.length-1)) {
+		/* if(m!=(lec.length-1)) {
 			task+=",";
-		}
+		} */
+		  
 		
-		for(i=0;other_task_obj.length;i++)
-			{
-			s=(other_task_obj[i].start).replace("T", "' '");
-			s=new Date(j)
-			e=(other_task_obj[i].end).replace("T", "' '");
-			e=new Date(j)
-			task+="{'name': '"+other_task_obj[i].task+"','type':'"+other_task_obj[i].events+"','startTime':"+s.getTime()+",'targetTime':"+ e.getTime()+",'timeToComplete':'"+other_task_obj[i].time+"'}";
-			if(i!=((other_task_obj.length)-1))
-				task+=",";
-			}
 /* lect="name": "DS Algo","startTime": 1490383200000,"endTime": 1490388000000 */
+	}
+	
+	for(i=0;i<other_task_obj.length;i++)
+	{
+		if(i==0) task+=",";
+	s=(other_task_obj[i].start).replace("T", "' '");
+	s=new Date(j)
+	e=(other_task_obj[i].end).replace("T", "' '");
+	e=new Date(j)
+	task+="{'name': '"+other_task_obj[i].task+"','type':'"+other_task_obj[i].events+"','startTime':"+s.getTime()+",'targetTime':"+ e.getTime()+",'timeToComplete':'"+other_task_obj[i].time+"'}";
+	if(i!=((other_task_obj.length)-1))
+		task+=",";
 	}
 	/* for(l=0;l<extra.length;l++)
 		{

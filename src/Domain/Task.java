@@ -60,16 +60,25 @@ public class Task implements Comparable<Task>{
 	}
 	@Override
 	public int compareTo(Task task) {
-		if (this.getTargetTime()==task.getTargetTime())
-			return 0;
-		else if(this.getTargetTime().before(task.getTargetTime()))
-			return -1;
-		else
+		if(this.getType().getPriority() > task.getType().getPriority()) {
 			return 1;
+		} else if (this.getType().getPriority() < task.getType().getPriority()) {
+			return -1;
+		} else {
+			if (this.getTargetTime()==task.getTargetTime())
+				return 0;
+			else if(this.getTargetTime().before(task.getTargetTime()))
+				return -1;
+			else
+				return 1;
+		}
 	}
 
 	public enum TaskName {
-		Lecture, Sleep, Travel, Exam, Assignment, ExtraEffort, Revision, General, Chores, Lunch, Dinner, Regular;
+		Lecture(0), Sleep(0), Travel(0), Exam(4), Assignment(3), HW(3), Extra(2), Revision(2), General(1), Chores(0), Lunch(0), Dinner(0), Regular(0), Other(1);
+		private final int priority;
+		TaskName(int priority) { this.priority = priority; }
+	    public int getPriority() { return priority; }
 	}
 	
 	

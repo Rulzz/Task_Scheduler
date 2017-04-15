@@ -139,12 +139,18 @@ public class GreedyBackward {
 	public Comparator<Task> taskReverseComparator = new Comparator<Task>() {
 		@Override
 		public int compare(Task a, Task b) {
-			if (a.getTargetTime()==b.getTargetTime())
-				return 0;
-			else if(a.getTargetTime().after(b.getTargetTime()))
-				return -1;
-			else
+			if(a.getType().getPriority() > b.getType().getPriority()) {
 				return 1;
+			} else if (a.getType().getPriority() < b.getType().getPriority()) {
+				return -1;
+			} else {
+				if (a.getTargetTime() == b.getTargetTime())
+					return 0;
+				else if(a.getTargetTime().after(b.getTargetTime()))
+					return -1;
+				else
+					return 1;
+			}
 		}
 	};
 

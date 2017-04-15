@@ -253,13 +253,16 @@ public class SchedulerService {
 					break;
 				}
 			}
-			freeSlots.remove(toRemove);
-			freeSlots.add(new Slot("", toRemove.getStartTime(), helper.subtractStringTime(lecture.getStartTime(), travelTime)));
-			freeSlots.add(new Slot("", helper.addStringTime(lecture.getEndTime(), travelTime), toRemove.getEndTime()));
+			if(toRemove.getStartTime() != null) {
+				freeSlots.remove(toRemove);
+				freeSlots.add(new Slot("", toRemove.getStartTime(), helper.subtractStringTime(lecture.getStartTime(), travelTime)));
+				freeSlots.add(new Slot("", helper.addStringTime(lecture.getEndTime(), travelTime), toRemove.getEndTime()));
+				
+				schedule.add(lecture);
+				schedule.add(new Slot(Task.TaskName.Travel.name(), helper.subtractStringTime(lecture.getStartTime(), travelTime), lecture.getStartTime()));
+				schedule.add(new Slot(Task.TaskName.Travel.name(), lecture.getEndTime(), helper.addStringTime(lecture.getEndTime(), travelTime)));
+			}
 			
-			schedule.add(lecture);
-			schedule.add(new Slot(Task.TaskName.Travel.name(), helper.subtractStringTime(lecture.getStartTime(), travelTime), lecture.getStartTime()));
-			schedule.add(new Slot(Task.TaskName.Travel.name(), lecture.getEndTime(), helper.addStringTime(lecture.getEndTime(), travelTime)));
 			
 		}
 		

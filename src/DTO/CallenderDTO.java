@@ -1,15 +1,15 @@
 package DTO;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CallenderDTO {
-	private HashMap<String, ArrayList<SlotDTO>> schedule;
+	private LinkedHashMap<String, ArrayList<SlotDTO>> schedule;
 	private ArrayList<String> messages;
-	public HashMap<String, ArrayList<SlotDTO>> getSchedule() {
+	public LinkedHashMap<String, ArrayList<SlotDTO>> getSchedule() {
 		return schedule;
 	}
-	public void setSchedule(HashMap<String, ArrayList<SlotDTO>> schedule) {
+	public void setSchedule(LinkedHashMap<String, ArrayList<SlotDTO>> schedule) {
 		this.schedule = schedule;
 	}
 	public ArrayList<String> getMessages() {

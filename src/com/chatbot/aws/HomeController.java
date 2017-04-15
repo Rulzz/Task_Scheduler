@@ -1,4 +1,4 @@
-package com.chatbot.aws;
+/*package com.chatbot.aws;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
+*//**
  * Handles requests for the application home page.
- */
+ *//*
 @Controller
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
+	*//**
 	 * Simply selects the home view to render by returning its name.
-	 */
+	 *//*
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -35,7 +35,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		/*for(int j=1;j<=5;j++)
+		for(int j=1;j<=5;j++)
 		{
 			System.out.println("hELoo");
 	    p= Math.random();
@@ -44,19 +44,20 @@ public class HomeController {
 		else
 			
 		{}
-		}*/
+		}
 		
 		return "home1";
 	}
 	
 	   @RequestMapping(value = "/table", method = RequestMethod.POST)
 	    public String getTime() {
-		   /*System.out.println("in.........");
+		   System.out.println("in.........");
 	        Random rand = new Random();
 	        float r = rand.nextFloat() * 100;
 	        String result = "<br>Next Random # is <b>" + r + "</b>. Generated on <b>" + new Date().toString() + "</b>";
-	        System.out.println("Debug Message from CrunchifySpringAjaxJQuery Controller.." + new Date().toString());*/
+	        System.out.println("Debug Message from CrunchifySpringAjaxJQuery Controller.." + new Date().toString());
 	        return "home";
 	    }
 	
 }
+*/

@@ -33,7 +33,7 @@ public class GreedyAvg {
 			for(Integer taskId : dayWiseTaskAllocation.keySet()) {
 				ArrayList<Float> timeAllocation = dayWiseTaskAllocation.get(taskId);
 				Float avg = (timeAllocation.get(0) + timeAllocation.get(1))/2;
-				allocateTimeForTaskForDay(day, getTaskById(taskList, taskId), avg);
+				if(avg>0f) allocateTimeForTaskForDay(day, getTaskById(taskList, taskId), avg);
 				timeAllocation.add(2, avg);
 				taskTimeAllocated.put(taskId, taskTimeAllocated.get(taskId)+avg);
 			}

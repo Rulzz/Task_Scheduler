@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.time.DateUtils;
 
@@ -18,8 +18,8 @@ public class CallenderDTOConverter {
 	SlotDTOConverter slotDTOConverter = new SlotDTOConverter();
 	SimpleDateFormat dayFormat = new SimpleDateFormat("dd-M-yyyy");
 	
-	public HashMap<String, ArrayList<SlotDTO>> convert(ArrayList<Slot> schedule) {
-		HashMap<String, ArrayList<SlotDTO>> callender = new HashMap<>();
+	public LinkedHashMap<String, ArrayList<SlotDTO>> convert(ArrayList<Slot> schedule) {
+		LinkedHashMap<String, ArrayList<SlotDTO>> callender = new LinkedHashMap<>();
 		Collections.sort(schedule);
 		for(Slot slot : schedule) {
 			String slotDay = dayFormat.format(DateUtils.truncate(slot.getStartTime(), Calendar.DATE));
