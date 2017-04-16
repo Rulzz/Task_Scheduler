@@ -67,7 +67,7 @@ function add(ty)
 		{}
 	else
 		{
-		alert(x.indexOf(document.getElementById("lecture").value));
+	//	alert(x.indexOf(document.getElementById("lecture").value));
 		if(x.indexOf(document.getElementById("lecture").value)==(-1)&&document.getElementById("lecture").value!="")
 	x.push(document.getElementById("lecture").value);
 		}
@@ -110,7 +110,7 @@ function change(typ)
 	var r = document.getElementById("list");
 	//alert("in  "+r.selectedIndex);
 	ty=r.selectedIndex;
-	alert(typ);
+	//alert(typ);
 	if(typ=='lec')
 		{
 		dates=[];
@@ -118,15 +118,15 @@ function change(typ)
 		{
 		tag="";
 		tag+="<h4>Events</h4>";
-		alert("1111");
+		//alert("1111");
 		for(i=0;i<event_details.length;i++)
 		{
-			alert("aaa"+event_details[i]+"....");
+		//	alert("aaa"+event_details[i]+"....");
 			if(event_details[i].lecture==x[ty])
 				{
 					tag+=event_details[i].events +" on "+event_details[i].dates+"<br><br>";
 					dates.push(event_details[i].dates);
-					alert("???....."+dates);
+				//	alert("???....."+dates);
 				}
 		}
 	document.getElementById("added_events").innerHTML=tag;
@@ -178,7 +178,7 @@ lec=[];
 extra=[];
 function save(ty)
 	{
-	alert(ty);
+	//alert(ty);
 	if(ty=='lec')
 		{
 		
@@ -200,15 +200,15 @@ function save(ty)
 	else
 			{
 	details=start_time+"|"+end_time+"|"+event+"|"+study_time+"|"+dates+"|"+eventdate;
-	alert(lecture);
+//	alert(lecture);
 	if(typeof lec[lecture]=='undefined')
 		{
-		alert(lec.length);
+	//	alert(lec.length);
 		if(parseInt(lecture)==lec.length)
 		lec.push(details);
 		else
 			{
-			alert("in")
+		//	alert("in")
 			for(i=0;i<parseInt(lecture);i++)
 				{
 				lec.push("?");
@@ -224,7 +224,7 @@ function save(ty)
 		}
 	else
 		{
-		alert("in....");
+	//	alert("in....");
 		if(typeof extra[document.getElementById("extralist").selectedIndex]=='undefined')
 		extra.push(document.getElementById("extratime").value);
 		else 
@@ -233,7 +233,7 @@ function save(ty)
 		extra[document.getElementById("extralist").selectedIndex]= document.getElementById("extratime").value;
 		}
 		}
-	alert(lec);
+//	alert(lec);
 	}
 
 function remove()
@@ -247,7 +247,7 @@ function remove()
 	lec.splice(r.selectedIndex, 1);
 	extra.splice(r.selectedIndex, 1);
 	event_details.splice(r.selectedIndex, 1);
-	alert(lec+" ??? "+extra);
+//	alert(lec+" ??? "+extra);
 	//alert(x.indexOf(r.selectedIndex));
     r.remove(r.selectedIndex);
     e.remove(e.selectedIndex);
@@ -255,7 +255,7 @@ function remove()
 
 	if(x.length==0)
 		{
-		alert("in");
+	//	alert("in");
 		document.getElementById("lec").setAttribute("style","display:none");
 	document.getElementById("extra").setAttribute("style","display:none");
 		}
@@ -288,7 +288,7 @@ function remove_other_task()
 
 	function submit()
 	{
-		alert("sub");
+	//	alert("sub");
 		localStorage.setItem("data","data");
 		name=document.getElementById("name").value;
 		
@@ -313,7 +313,7 @@ for(m=0;m<lec.length;m++)
 z=lec[m].split("|")[4];
 		for(n=0;n<z.split(",").length;n++)
 			{
-			alert(x[m]+"....."+event_details[n].lecture);
+		//	alert(x[m]+"....."+event_details[n].lecture);
 			var e = document.getElementById("event");
 			var event = e.options[parseInt(lec[m].split("|")[2])].value;
 			
@@ -332,16 +332,16 @@ z=lec[m].split("|")[4];
 		if(m!=(lec.length-1)) {
 			sub+=",";
 		}
-		alert(JSON.stringify(event_details));
+	//	alert(JSON.stringify(event_details));
 		for(n=0;n<event_details.length;n++)
 			{
 			eventend= new Date(event_details[n].dates + ' ' + lec[m].split("|")[0]); 
 			if(x[m]==event_details[n].lecture)
 				{
 				j=(event_details[n].start).replace("T", "' '");
-				alert(j);
+			//	alert(j);
 				j=new Date(j)
-				alert(j.getTime());
+			//	alert(j.getTime());
 				task+="{'name': '"+x[m]+"','type':'"+event_details[n].events+"','startTime':"+j.getTime()+",'targetTime':"+ eventend.getTime()+",'timeToComplete':'"+event_details[n].time+"'}";
 				if(n!=((event_details.length)-1))
 					task+=",";
@@ -377,7 +377,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 		 pass="{'sleepStartTime': '"+sl_start+"','sleepEndTime':'"+sl_end+"','travelTime':'"+trstart_time+
 			"','startDate':"+ startdate.getTime()+",'endDate':"+ enddate.getTime()+",'lectures': [" +sub+"],'tasks': ["+task+"]}"; 
 			
-			alert(pass);
+		//	alert(pass);
 			misc=[];
 			misc.push({
 				
@@ -437,7 +437,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 		
 		tempdate=document.getElementById("datePick" ).value;
 		index=dates.indexOf(tempdate);
-		alert(dates);
+	//	alert(dates);
 		if(index==(-1))
 			{
 		dates.push(document.getElementById("datePick" ).value);
@@ -565,7 +565,7 @@ function load()
 	l_x=JSON.parse(localStorage.getItem("x"));
 	l_extra=JSON.parse(localStorage.getItem("extra"));
 	l_other_task_obj=JSON.parse(localStorage.getItem("other"));
-	alert(localStorage.getItem("extra"));
+//	alert(localStorage.getItem("extra"));
 	
 	if(l_x.length!=0)
 		{
@@ -585,7 +585,7 @@ function load()
 	if(l_extra.length!=0)
 		{
 		extra=l_extra;
-		alert(extra);
+	//	alert(extra);
 		change('extra');
 		}
 	if(misc.length!=0)
@@ -682,7 +682,7 @@ function save_other()
 
 function change_task(task)
 	{
-	alert(task+".....");
+	//alert(task+".....");
 	var index=(-1);
 	for(i=0;i<other_task_obj.length;i++)
 		{
