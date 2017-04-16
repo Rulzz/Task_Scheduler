@@ -666,7 +666,7 @@ function save_other()
 			  break;
 			  }
 		  
-		  }
+		  } 
 	if(flag==0)
 		{
 	 other_task_obj.push({
