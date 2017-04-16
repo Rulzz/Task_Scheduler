@@ -8,9 +8,21 @@
 function start()
 	{
 	
-	
+	//alert(localStorage.getItem("page"));
+	page=parseInt(localStorage.getItem("page"));
 	 result='[{"schedule": {'+
 		     '"23-3-2017": [{"name": "Sleep","startTime": "06:00","endTime": "08:30"}],'+
+		     '"22-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"24-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"21-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"25-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"26-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"14-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"01-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
+		     '"20-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}]},'+
+		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
+		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]},{"schedule": {'+
+		     '"23-3-2017": [{"name": "Dinner","startTime": "06:00","endTime": "08:30"}],'+
 		     '"22-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"24-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
 		     '"21-3-2017": [{"name": "Sleep","startTime": "00:00","endTime": "08:15"}],'+
@@ -23,11 +35,11 @@ function start()
 		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; 
 		    result=JSON.parse(result);
 		    result=JSON.parse(localStorage.getItem("data"));
-	p=result[0].schedule;
+	p=result[page].schedule; 
 	//alert(result[0].schedule[0]);
 	color=[];
 	colorindex=1;
-	
+	count=0;
 	check=0;
 	x="";  	
 	for (var key in p) {
@@ -60,7 +72,7 @@ function start()
 			{
 			check=1;
 			colorindex=color[n].color; 
-			alert(p[key][i].name+"  "+colorindex);
+			//alert(p[key][i].name+"  "+colorindex);
 			break;
 			}
 		
@@ -76,7 +88,7 @@ function start()
 		colorindex=color.length;
 		}
 	 check=0;
-	alert(colorindex);
+	//alert(colorindex);
   	//alert(key+"name"+p[key][i].name+"startTime"+p[key][i].startTime+"endTime"+p[key][i].endTime);
   	 x+="<li class='single-event' data-start='"+p[key][i].startTime+"' data-end='"+p[key][i].endTime+"'"+ 
      "data-content='' data-event='event-"+parseInt(colorindex)+"'>"+
@@ -88,12 +100,12 @@ function start()
 	
 	
 	
+	alert(x);
 	
-	
-	document.getElementById("data").innerHTML=x;
-	
+	document.getElementById("data").innerHTML=x; 
+	document.getElementById("msg").innerHTML=result[page].messages;
 	mainLoader();
-	
+	//mainLoader();
 	}
 count=0;
 click=1;
@@ -118,6 +130,12 @@ dis=8;
 			}
 		
 	}
+	
+	function changepage(st)
+	{
+		localStorage.setItem("page",st);
+		location.reload();
+	}
 </script>
 
 <script src="resources/js/modernizr.js"></script>
@@ -134,7 +152,7 @@ dis=8;
   	
 	<title>Schedule Template | CodyHouse</title>
 </head>
-<body onload="start()">
+<body onload="start(0)">
 <div>
 
 
@@ -405,7 +423,12 @@ dis=8;
 	</div>
 </div> <!-- .cd-schedule -->
  <!-- Resource jQuery -->
- 
+ <div id="msg"></div>
+ <div style="display: inline-flex; padding-left: 50%;">
+ <span onclick="changepage(0)" style="cursor: pointer">1</span>	&nbsp;
+ <span onclick="changepage(1)" style="cursor: pointer">2</span>	&nbsp;
+ <span onclick="changepage(2)" style="cursor: pointer">3</span>
+ </div>
  </div>
  
 </body>

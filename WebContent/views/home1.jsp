@@ -66,7 +66,11 @@ function add(ty)
 	if(ty=='ini')
 		{}
 	else
+		{
+		alert(x.indexOf(document.getElementById("lecture").value));
+		if(x.indexOf(document.getElementById("lecture").value)==(-1)&&document.getElementById("lecture").value!="")
 	x.push(document.getElementById("lecture").value);
+		}
 	y="";
 	for(i=0;i<x.length;i++)
 		{
@@ -85,8 +89,10 @@ function add(ty)
 var other_task_list=[];
 function add_other()
 {
-
-	other_task_list.push(document.getElementById("other_task").value);
+	check_task=document.getElementById("other_task").value;
+	if(other_task_list.indexOf(check_task)==(-1)&&check_task!="")
+		{
+	other_task_list.push(check_task);
 y="";
 for(i=0;i<other_task_list.length;i++)
 	{
@@ -95,7 +101,7 @@ for(i=0;i<other_task_list.length;i++)
 document.getElementById("other_list").setAttribute("style","display:");
 document.getElementById("other_task_list").innerHTML=y;
 document.getElementById("other_task").value="";
-
+		}
 }
 
 function change(typ)
@@ -143,6 +149,7 @@ function change(typ)
 	document.getElementById("eventdate").selectedIndex =eventindex;
 	document.getElementById("dates").value =lec[ty].split("|")[4];
 	document.getElementById("hr_study").value=lec[ty].split("|")[3];
+	document.getElementById("myLocalDate").value=event_details[ty].start;
 		}
 	else
 		{
@@ -239,6 +246,7 @@ function remove()
 	x.splice(r.selectedIndex, 1);
 	lec.splice(r.selectedIndex, 1);
 	extra.splice(r.selectedIndex, 1);
+	event_details.splice(r.selectedIndex, 1);
 	alert(lec+" ??? "+extra);
 	//alert(x.indexOf(r.selectedIndex));
     r.remove(r.selectedIndex);
@@ -352,9 +360,9 @@ z=lec[m].split("|")[4];
 	{
 		if(i==0) task+=",";
 	s=(other_task_obj[i].start).replace("T", "' '");
-	s=new Date(j)
+	s=new Date(s)
 	e=(other_task_obj[i].end).replace("T", "' '");
-	e=new Date(j)
+	e=new Date(e)
 	task+="{'name': '"+other_task_obj[i].task+"','type':'"+other_task_obj[i].events+"','startTime':"+s.getTime()+",'targetTime':"+ e.getTime()+",'timeToComplete':'"+other_task_obj[i].time+"'}";
 	if(i!=((other_task_obj.length)-1))
 		task+=",";
@@ -389,7 +397,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 			localStorage.setItem("lec",JSON.stringify(lec));
 			localStorage.setItem("x",JSON.stringify(x));
 			localStorage.setItem("extra",JSON.stringify(extra));
-			//localStorage.setItem("cal",(startdate+","+enddate));
+			localStorage.setItem("other",JSON.stringify(other_task_obj));
 			
 		 	url="http://localhost:8080/Task_Scheduler/rest/CallenderResource/schedule";
 			
@@ -405,6 +413,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 				{
 					alert("in");
 					localStorage.setItem("data",JSON.stringify(result));
+					localStorage.setItem("page",0);
 					document.getElementById("sch").submit();
 					
 				},
@@ -555,7 +564,9 @@ function load()
 	l_lec=JSON.parse(localStorage.getItem("lec"));
 	l_x=JSON.parse(localStorage.getItem("x"));
 	l_extra=JSON.parse(localStorage.getItem("extra"));
+	l_other_task_obj=JSON.parse(localStorage.getItem("other"));
 	alert(localStorage.getItem("extra"));
+	
 	if(l_x.length!=0)
 		{
 		x=l_x;
@@ -589,6 +600,24 @@ function load()
 		document.getElementById("dateother").value=misc[0].date;
 		document.getElementById("datestart").value=misc[0].startdate;
 		document.getElementById("dateend").value=misc[0].enddate;
+		}
+	
+	if(l_other_task_obj.length!=0)
+		{
+		other_task_obj=l_other_task_obj;
+		y="";
+		for(i=0;i<other_task_obj.length;i++)
+			{
+			y+="<option value='"+other_task_obj[i].task+"'>"+other_task_obj[i].task+"</option>"
+			}
+		document.getElementById("other_list").setAttribute("style","display:");
+		document.getElementById("other_task_list").innerHTML=y;
+		document.getElementById("other_task").value="";
+		
+		document.getElementById("other_task_typ").value=other_task_obj[0].events;
+        document.getElementById("other_end").value=other_task_obj[0].end;
+        document.getElementById("other_start").value=other_task_obj[0].start ;
+        document.getElementById("hrs").value=other_task_obj[0].time;
 		}
 	}
 function task_change()
@@ -796,7 +825,7 @@ Start Time
   <h3>Other Task</h3>
   <div style="display: inline-flex;">
   <input id='other_task' type="text"  placeholder="Task Name" style="width: 410px;">
-  <input onclick="add_other()" type="button" value="Add" style="width: 10px; height: 10px; padding: 6px 35px 22px 5px; margin-left: 20px;" />
+  <input onclick="add_other('other')" type="button" value="Add" style="width: 10px; height: 10px; padding: 6px 35px 22px 5px; margin-left: 20px;" />
   </div>
   <div style="display: none;" id='other_list'>
 		
