@@ -22,7 +22,7 @@ $(function(){
 		
 	$( "#datePick" ).datepicker( "option", "dateFormat", $(this).val() );
 	
-	});
+	}); 
 	});
 	
 $(function(){
