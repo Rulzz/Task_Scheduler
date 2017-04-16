@@ -213,6 +213,7 @@ dis=8;
 			<li><span>22:30</span></li>
 			<li><span>23:00</span></li>
 			<li><span>23:30</span></li>
+			<li><span>23:59</span></li>
 		</ul>
 	</div> <!-- .timeline -->
 
