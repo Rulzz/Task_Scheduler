@@ -654,9 +654,21 @@ var other_task_obj=[];
 function save_other()
 {
 	var e = document.getElementById("other_task_list");
+	var flag=0;
 	var cur_task = e.options[e.selectedIndex].innerHTML;
 	//alert(cur_task+"..."+document.getElementById("other_task_typ").value)
 	  //  other_task_typ
+	  for(i=0;i<other_task_obj.length;i++)
+		  {
+		  if(other_task_obj[i].task==cur_task)
+			  {
+			  flag=1;
+			  break;
+			  }
+		  
+		  }
+	if(flag==0)
+		{
 	 other_task_obj.push({
         task: cur_task,
         events: document.getElementById("other_task_typ").value,
@@ -664,7 +676,8 @@ function save_other()
         start: document.getElementById("other_start").value, 
         time: document.getElementById("hrs").value
     }); 
-	alert(other_task_obj[0].task);
+		}
+	//alert(other_task_obj[0].task);
 }
 
 function change_task(task)
