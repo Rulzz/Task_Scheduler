@@ -661,7 +661,7 @@ function save_other()
 	  for(i=0;i<other_task_obj.length;i++)
 		  {
 		  if(other_task_obj[i].task==cur_task)
-			  {
+			  {  
 			  flag=1;
 			  break;
 			  }
