@@ -29,7 +29,8 @@ public class GreedyForward {
 		taskPriority.addAll(taskList);
 		ArrayList<String> messages = new ArrayList<>();
 		
-		for(Task task : taskPriority) {
+		while (!taskPriority.isEmpty()) {
+			Task task = taskPriority.poll();
 			if(helper.getDuration(task.getTimeToComplete())==0f) {
 				continue;
 			}

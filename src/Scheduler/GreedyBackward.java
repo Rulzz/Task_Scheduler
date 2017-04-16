@@ -31,7 +31,8 @@ public class GreedyBackward {
 		taskPriority.addAll(taskList);
 		ArrayList<String> messages = new ArrayList<>();
 		
-		for(Task task : taskPriority) {
+		while (!taskPriority.isEmpty()) {
+			Task task = taskPriority.poll();
 			if(helper.getDuration(task.getTimeToComplete())==0f) {
 				continue;
 			}
@@ -143,9 +144,9 @@ public class GreedyBackward {
 		@Override
 		public int compare(Task a, Task b) {
 			if(a.getType().getPriority() > b.getType().getPriority()) {
-				return 1;
-			} else if (a.getType().getPriority() < b.getType().getPriority()) {
 				return -1;
+			} else if (a.getType().getPriority() < b.getType().getPriority()) {
+				return 1;
 			} else {
 				if (a.getTargetTime() == b.getTargetTime())
 					return 0;
