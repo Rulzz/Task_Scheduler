@@ -6,7 +6,7 @@
 <script src="resources/js/main.js"></script>
 <script type="text/javascript">
 function start()
-	{
+	{   
 	
 	//alert(localStorage.getItem("page"));
 	page=parseInt(localStorage.getItem("page"));
