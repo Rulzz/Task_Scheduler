@@ -676,7 +676,7 @@ function save_other()
         start: document.getElementById("other_start").value, 
         time: document.getElementById("hrs").value
     }); 
-		}
+		} 
 	//alert(other_task_obj[0].task);
 }
 
