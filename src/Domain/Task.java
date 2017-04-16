@@ -61,9 +61,9 @@ public class Task implements Comparable<Task>{
 	@Override
 	public int compareTo(Task task) {
 		if(this.getType().getPriority() > task.getType().getPriority()) {
-			return 1;
-		} else if (this.getType().getPriority() < task.getType().getPriority()) {
 			return -1;
+		} else if (this.getType().getPriority() < task.getType().getPriority()) {
+			return 1;
 		} else {
 			if (this.getTargetTime()==task.getTargetTime())
 				return 0;

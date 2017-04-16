@@ -125,6 +125,8 @@ public class GreedyAvg {
 			}
 		}
 		
+		freeSlots.removeAll(toRemove);
+		freeSlots.addAll(toAdd);
 	}
 
 	private Task getTaskById(ArrayList<Task> taskList, Integer taskId) {
