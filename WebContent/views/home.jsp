@@ -34,7 +34,7 @@ function start()
 		    '"messages": ["Could not allocate 86 Hrs and 55 Min for task : Reading",'+
 		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; 
 		    result=JSON.parse(result);
-		  //  result=JSON.parse(localStorage.getItem("data"));
+		    result=JSON.parse(localStorage.getItem("data"));
 	p=result[page].schedule; 
 	//alert(result[0].schedule[0]);
 	color=[];
@@ -103,8 +103,16 @@ function start()
 	//alert((result[page].messages).length);
 	
 	document.getElementById("data").innerHTML=x; 
-	if((result[page].messages).length>0)
-	document.getElementById("msg").innerHTML=result[page].messages;
+	if((result[page].messages).length>0){
+		for(i = 0; i < result[page].messages.length; i++){
+			document.getElementById("msg").innerHTML=document.getElementById("msg").innerHTML + '<br/>' + result[page].messages[i];
+		}
+		
+	}
+	else {
+		
+	document.getElementById("msg").innerHTML="All tasks successfully assigned!";
+	}
 	mainLoader();
 	//mainLoader();
 	}
@@ -425,11 +433,13 @@ dis=8;
 	</div>
 </div> <!-- .cd-schedule -->
  <!-- Resource jQuery -->
- <div id="msg"></div>
+ <div style="display: inline-flex; padding-left: 18%;" id="msg"></div></br>
  <div style="display: inline-flex; padding-left: 50%;">
  <span onclick="changepage(0)" style="cursor: pointer">1</span>	&nbsp;
  <span onclick="changepage(1)" style="cursor: pointer">2</span>	&nbsp;
  <span onclick="changepage(2)" style="cursor: pointer">3</span>
+ </br>
+ </br>
  </div>
  </div>
  

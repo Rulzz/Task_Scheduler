@@ -66,7 +66,9 @@ public class GreedyBackward {
 		Float timeAllocated = 0f;
 		ArrayList<Slot> toRemove = new ArrayList<>();
 		ArrayList<Slot> toAdd = new ArrayList<>();
-		
+		if (dailyFreeSlots.get(day.getTime())==null) {
+			return 0f;
+		}
 		for(Slot slot : dailyFreeSlots.get(day.getTime())) {
 			Float remainingTaskTime = helper.getDuration(task.getTimeToComplete())-task.getTimeAllocated();
 			if(remainingTaskTime<=0) {

@@ -280,10 +280,15 @@ function remove_other_task()
     r.remove(r.selectedIndex);
     
 
-	if(other_task_list.length==0)
-		{
-		document.getElementById("other_list").setAttribute("style","display:none");	
-		}
+	if(other_task_obj.length==0)
+	{
+		alert('if!!');
+	document.getElementById("other_list").setAttribute("style","display:none");	
+	}
+	else {
+		alert('else!!');
+		document.getElementById("other_list").setAttribute("style","display:");	
+	}
 	}
 
 	function submit()
@@ -398,6 +403,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 			localStorage.setItem("x",JSON.stringify(x));
 			localStorage.setItem("extra",JSON.stringify(extra));
 			localStorage.setItem("other",JSON.stringify(other_task_obj));
+			localStorage.setItem("other_list",JSON.stringify(other_task_list));
 			
 		 	url="http://localhost:8080/Task_Scheduler/rest/CallenderResource/schedule";
 			
@@ -604,6 +610,7 @@ function load()
 	
 	if(l_other_task_obj.length!=0)
 		{
+		other_task_list=JSON.parse(localStorage.getItem("other_list"));
 		other_task_obj=l_other_task_obj;
 		y="";
 		for(i=0;i<other_task_obj.length;i++)
@@ -663,6 +670,10 @@ function save_other()
 		  if(other_task_obj[i].task==cur_task)
 			  {  
 			  flag=1;
+			  other_task_obj[i].events= document.getElementById("other_task_typ").value,
+			  other_task_obj[i].end= document.getElementById("other_end").value,
+			  other_task_obj[i].start= document.getElementById("other_start").value, 
+			  other_task_obj[i].time= document.getElementById("hrs").value
 			  break;
 			  }
 		  
