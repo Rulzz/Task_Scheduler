@@ -245,6 +245,9 @@ public class SchedulerService {
 	private void addLecturesSlots(ArrayList<Slot> lectures, String travelTime) {
 		for(Slot lecture : lectures) {
 			SortedSet<Slot> freeSlots = dailyFreeSlots.get(DateUtils.truncate(lecture.getStartTime(), Calendar.DATE).getTime());
+			if(freeSlots == null) {
+				return;
+			}
 			Slot toRemove = new Slot();
 			
 			for(Slot freeSlot : freeSlots) {

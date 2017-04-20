@@ -155,6 +155,7 @@ function change(typ)
 		{
 		document.getElementById("start_time").value="";
 		document.getElementById("end_time").value="";
+		document.getElementById("myLocalDate").value="";
 		document.getElementById("event").selectedIndex=0;
 		document.getElementById("eventdate").innerHTML="";
 		document.getElementById("dates").value="";
@@ -246,7 +247,15 @@ function remove()
 	x.splice(r.selectedIndex, 1);
 	lec.splice(r.selectedIndex, 1);
 	extra.splice(r.selectedIndex, 1);
-	event_details.splice(r.selectedIndex, 1);
+	//alert(r.options[r.selectedIndex].innerHTML);
+	for(i=0;i<event_details.length;i++)
+			{
+				if(event_details[i].lecture==r.options[r.selectedIndex].innerHTML)
+				{
+				event_details.splice(i, 1);
+				}
+			}
+	
 //	alert(lec+" ??? "+extra);
 	//alert(x.indexOf(r.selectedIndex));
     r.remove(r.selectedIndex);
@@ -259,6 +268,7 @@ function remove()
 		document.getElementById("lec").setAttribute("style","display:none");
 	document.getElementById("extra").setAttribute("style","display:none");
 		}
+	change('lec');
 	//document.getElementById("extra").setAttribute("style","display:");
 	}
 	
@@ -776,7 +786,7 @@ function che(hr)
 <div class="clearfix"></div>
 
 <div style="display: inline-flex;">
-<input style="width: 450px;" id="dates" type="text"/ placeholder="Selected Dates">
+<input style="width: 450px;" id="dates" type="text"/ placeholder="Selected Dates" disabled>
 <input style="background: url(resources/image/date.png) no-repeat right center; background-size: 45px; width:40px; color: transparent; cursor:pointer" 
 onchange="calend()" id="datePick" type="text"/ >
 </div>
@@ -860,7 +870,7 @@ Start Time
 <div style="display: inline-flex;">
 
 <a style="display: inline-table;    padding-top: 10px;">Time:</a>
-  <input type="time" id="trstart_time">
+  <input onkeyup="che('trstart_time')" type="text" id="trstart_time">
   
  </div> 
   <h3>Other Task</h3>
