@@ -718,6 +718,23 @@ function change_task(task)
 			document.getElementById("other_task_typ").selectedIndex=0;
 		}
 	}
+	
+function che(hr)
+{
+	
+	time=document.getElementById(hr).value;
+	//alert(time.split(":")[1]);
+	if(time.split(":")[0]%1==0&&time.split(":")[1]<60&&time.split(":")[1]%1==0)
+		{
+		document.getElementById(hr).setAttribute("style","");
+		}
+	else
+		{
+		//alert("wwww");
+		document.getElementById(hr).setAttribute("style","border: solid red;");
+		//return false;
+		}
+}
 </script>
 
 <head>
@@ -813,7 +830,7 @@ Start Time
 </div>
 <div style="display: inline-flex;">
  <a style="display: inline-table;    padding-top: 10px;">Hours of Study</a>
-<input id='hr_study' style="width: 150px;" type="time" placeholder="Hours of Study">
+<input onkeyup="che('hr_study')" id='hr_study' style="width: 150px;" type="text" placeholder="00:00">
 <input onclick="addevent()" type="button" value="Change" style="width: 10px; height: 10px; padding: 6px 67px 22px 5px; margin-left: 20px;" />
  </div>
  
@@ -908,7 +925,7 @@ Start Time
     
     <div style="display: inline-flex;">
     <a style="display: inline-table;padding-left: 23px; padding-top: 10px;">Hours:</a>
-    <input type="time" id="hrs">
+    <input onkeyup="che('hrs')" type="text" id="hrs" placeholder="00:00">
     </div>
     <input onclick="save_other()" type="button" value="Save" style="width: 10px; height: 10px; padding: 6px 45px 22px 5px; margin-left: 20px;" />
 </div>	
