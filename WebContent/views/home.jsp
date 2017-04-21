@@ -35,7 +35,7 @@ function start()
 		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; 
 		    result=JSON.parse(result);
 		    result=JSON.parse(localStorage.getItem("data"));
-	p=result[page].schedule; 
+	p=result[0].schedule; 
 	//alert(result[0].schedule[0]);
 	color=[];
 	colorindex=1;
@@ -46,9 +46,9 @@ function start()
   if (p.hasOwnProperty(key)) {
 	  count++;
 	  if(count>7)
-		  x+="<div id='"+count+"' style='display:none;'><li class='events-group'>"
+		  x+="<div id='"+count+"' style='display:none; opacity: 0; transition: opacity 300ms;'><li class='events-group'>"
 	  else
-	  x+="<div id='"+count+"'><li class='events-group'>";
+	  x+="<div id='"+count+"' style='display:block; opacity: 1;'><li class='events-group'>";
 	  x+="<div class='top-info'><span>"+key+"</span></div>"+
 	    "<ul>";
 	  for(i=0;i<p[key].length;i++)
@@ -103,9 +103,9 @@ function start()
 	//alert((result[page].messages).length);
 	
 	document.getElementById("data").innerHTML=x; 
-	if((result[page].messages).length>0){
-		for(i = 0; i < result[page].messages.length; i++){
-			document.getElementById("msg").innerHTML=document.getElementById("msg").innerHTML + '<br/>' + result[page].messages[i];
+	if((result[0].messages).length>0){
+		for(i = 0; i < result[0].messages.length; i++){
+			document.getElementById("msg").innerHTML=document.getElementById("msg").innerHTML + '<br/>' + result[0].messages[i];
 		}
 		
 	}
@@ -122,10 +122,15 @@ dis=8;
 	function right() {
 		if(dis<=count)
 			{
-		document.getElementById(click).setAttribute("style","display:none;");
+		document.getElementById(click).setAttribute("style","display:none; opacity: 0; transition: opacity 300ms;");
 		click++;
-		document.getElementById(dis).setAttribute("style","display:");
-		dis++;
+		document.getElementById(dis).setAttribute("style","display:block; zoom: 110%;");
+		setTimeout(function(){
+			//alert("in");
+			document.getElementById(dis).setAttribute("style","display:block;");
+			dis++;
+			}, 300);
+		
 			}
 	}
 	
@@ -133,9 +138,14 @@ dis=8;
 		if(click>1)
 			{
 		dis--;
-		document.getElementById(dis).setAttribute("style","display:none;");
+		document.getElementById(dis).setAttribute("style","display:none; opacity: 0; transition: opacity 300ms;");
 		click--;
-		document.getElementById(click).setAttribute("style","display:");
+		document.getElementById(click).setAttribute("style","display:block; zoom: 110%;");
+		setTimeout(function(){
+			//alert("in");
+			document.getElementById(click).setAttribute("style","display:block;");
+			
+			}, 300);
 			}
 		
 	}
