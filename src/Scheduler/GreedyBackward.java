@@ -83,14 +83,14 @@ public class GreedyBackward {
 					task.setTimeAllocated(helper.getDuration(task.getTimeToComplete()));
 					toRemove.add(slot);
 					toAdd.add(new Slot("", slot.getStartTime(), helper.subFloatTime(slot.getEndTime(), remainingTaskTime)));
-					backwardSchedule.add(new Slot(task.getName(), helper.subFloatTime(slot.getEndTime(), remainingTaskTime), slot.getEndTime()));
+					backwardSchedule.add(new Slot(task.getName() + "-" + task.getType().name(), helper.subFloatTime(slot.getEndTime(), remainingTaskTime), slot.getEndTime()));
 					break;
 				} else {
 					timeAllocated=timeAllocated+availableSlotTime;
 					task.setTimeAllocated(task.getTimeAllocated()+availableSlotTime);
 					toRemove.add(slot);
 					toAdd.add(new Slot("", slot.getStartTime(), task.getStartTime()));
-					backwardSchedule.add(new Slot(task.getName(),task.getStartTime(), slot.getEndTime()));
+					backwardSchedule.add(new Slot(task.getName() + "-" + task.getType().name(),task.getStartTime(), slot.getEndTime()));
 				}
 			} else if (slot.getStartTime().getTime() < task.getTargetTime().getTime() && slot.getEndTime().getTime() > task.getTargetTime().getTime() && slot.getStartTime().getTime() > task.getStartTime().getTime()) {
 				Float availableSlotTime = helper.getDifference(slot.getStartTime(), task.getTargetTime());
@@ -100,14 +100,14 @@ public class GreedyBackward {
 					toRemove.add(slot);
 					if(availableSlotTime > remainingTaskTime) toAdd.add(new Slot("", slot.getStartTime(), helper.subFloatTime(task.getTargetTime(), remainingTaskTime)));
 					toAdd.add(new Slot("", task.getTargetTime(), slot.getEndTime()));
-					backwardSchedule.add(new Slot(task.getName(), helper.subFloatTime(task.getTargetTime(), remainingTaskTime), task.getTargetTime()));
+					backwardSchedule.add(new Slot(task.getName() + "-" + task.getType().name(), helper.subFloatTime(task.getTargetTime(), remainingTaskTime), task.getTargetTime()));
 					break;
 				} else {
 					timeAllocated=timeAllocated+availableSlotTime;
 					task.setTimeAllocated(task.getTimeAllocated()+availableSlotTime);
 					toRemove.add(slot);
 					toAdd.add(new Slot("", task.getTargetTime(), slot.getEndTime()));
-					backwardSchedule.add(new Slot(task.getName(), slot.getStartTime(), task.getTargetTime()));
+					backwardSchedule.add(new Slot(task.getName() + "-" + task.getType().name(), slot.getStartTime(), task.getTargetTime()));
 				}
 			} else if (slot.getStartTime().getTime() <= task.getStartTime().getTime() && slot.getEndTime().getTime() >= task.getTargetTime().getTime() ) {
 				Float availableSlotTime = helper.getDifference(task.getStartTime(), task.getTargetTime());
@@ -116,7 +116,7 @@ public class GreedyBackward {
 				toRemove.add(slot);
 				if(slot.getStartTime().getTime() < task.getStartTime().getTime()) toAdd.add(new Slot("", slot.getStartTime(), task.getStartTime()));
 				if(slot.getEndTime().getTime() > task.getTargetTime().getTime()) toAdd.add(new Slot("", task.getTargetTime(), slot.getEndTime()));
-				backwardSchedule.add(new Slot(task.getName(), task.getStartTime(), task.getTargetTime()));
+				backwardSchedule.add(new Slot(task.getName() + "-" + task.getType().name(), task.getStartTime(), task.getTargetTime()));
 				break;
 			} else {
 				Float slotTime = helper.getDifference(slot.getStartTime(), slot.getEndTime());
@@ -126,13 +126,13 @@ public class GreedyBackward {
 					task.setTimeAllocated(helper.getDuration(task.getTimeToComplete()));
 					toRemove.add(slot);
 					if(slotTime > remainingTaskTime) toAdd.add(new Slot("", slot.getStartTime(), helper.subFloatTime(slot.getEndTime(), remainingTaskTime)));
-					backwardSchedule.add(new Slot(task.getName(),helper.subFloatTime(slot.getEndTime(), remainingTaskTime), slot.getEndTime()));
+					backwardSchedule.add(new Slot(task.getName() + "-" + task.getType().name(),helper.subFloatTime(slot.getEndTime(), remainingTaskTime), slot.getEndTime()));
 					break;
 				}  else {
 					timeAllocated=timeAllocated+slotTime;
 					task.setTimeAllocated(task.getTimeAllocated()+slotTime);
 					toRemove.add(slot);
-					backwardSchedule.add(new Slot(task.getName(),slot.getStartTime(), slot.getEndTime()));
+					backwardSchedule.add(new Slot(task.getName() + "-" + task.getType().name(),slot.getStartTime(), slot.getEndTime()));
 				}
 			}
 		}

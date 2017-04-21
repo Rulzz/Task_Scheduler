@@ -63,7 +63,7 @@ public class ScheduleInvoker {
 		Task lec2Extra = new Task();
 		lec2Extra.setName("Intro to AI");
 		lec2Extra.setTimeToComplete("3:30");
-		lec2Extra.setType(Task.TaskName.ExtraEffort);
+		lec2Extra.setType(Task.TaskName.Extra);
 		lec2Extra.setTargetTime(dateFormat.parse("26-03-2017 23:59"));
 		lec2Extra.setStartTime(dateFormat.parse("20-03-2017 00:00"));
 		

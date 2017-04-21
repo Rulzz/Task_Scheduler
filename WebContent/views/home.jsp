@@ -54,7 +54,7 @@ function start()
 	  for(i=0;i<p[key].length;i++)
   	{
 		  
-		if(colorindex==15)
+		if(colorindex==25)
 			colorindex=1;
 	/* if(color.length==0){
 		color.push({
@@ -100,8 +100,8 @@ function start()
 	
 	
 	
-	//alert((result[page].messages).length);
-	
+	//alert(localStorage.getItem("title"));
+	document.getElementById("header").innerHTML=localStorage.getItem("title"); 
 	document.getElementById("data").innerHTML=x; 
 	if((result[0].messages).length>0){
 		for(i = 0; i < result[0].messages.length; i++){
@@ -129,7 +129,7 @@ dis=8;
 			//alert("in");
 			document.getElementById(dis).setAttribute("style","display:block;");
 			dis++;
-			}, 300);
+			}, 100);
 		
 			}
 	}
@@ -145,7 +145,7 @@ dis=8;
 			//alert("in");
 			document.getElementById(click).setAttribute("style","display:block;");
 			
-			}, 300);
+			}, 100);
 			}
 		
 	}
@@ -172,12 +172,13 @@ dis=8;
 	<title>Schedule Template | CodyHouse</title>
 </head>
 <body onload="start(0)">
-<div>
 
+<div>
+<h1 id="header" style="    margin-top: 20px;    font-size: 30px;    font-weight: bold;    font-style: italic;    color: maroon;" align="center"></h1>
 
 <div class="cd-schedule loading">
 
-<div style="margin-left: 1390px; margin-top: 10px; position: absolute; cursor: pointer;">
+<div style="margin-left: 1410px; margin-top: 10px; position: absolute; cursor: pointer;">
 <img onclick="right()" id="image_canv" src="resources/image/right.png" style="height: 30px;
 ">
 </div>

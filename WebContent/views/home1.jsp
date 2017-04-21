@@ -283,20 +283,20 @@ function remove_other_task()
 	if(other_task_obj[i].task==task)
 		index=i;
 	}
-	alert("size "+other_task_obj.length);
+	//alert("size "+other_task_obj.length);
 	other_task_obj.splice(index, 1);
 	other_task_list.splice(r.selectedIndex, 1);
-	alert("size after "+other_task_obj.length);
+	//alert("size after "+other_task_obj.length);
     r.remove(r.selectedIndex);
     
 
 	if(other_task_obj.length==0)
 	{
-		alert('if!!');
+		//alert('if!!');
 	document.getElementById("other_list").setAttribute("style","display:none");	
 	}
 	else {
-		alert('else!!');
+	//	alert('else!!');
 		document.getElementById("other_list").setAttribute("style","display:");	
 	}
 	}
@@ -344,9 +344,11 @@ z=lec[m].split("|")[4];
 				task+="{'name': "+x[m]+",'type':'Regular','targetTime':'"+ lec[m].split("|")[5]+"','timeToComplete':'"+lec[m].split("|")[3]+"'},";
 			 */			 
 			}
-		if(m!=(lec.length-1)) {
+		if(m!=(lec.length-1)&&lec.length!=0) {
+			alert("in");
 			sub+=",";
 		}
+		
 	//	alert(JSON.stringify(event_details));
 		for(n=0;n<event_details.length;n++)
 			{
@@ -373,13 +375,13 @@ z=lec[m].split("|")[4];
 	
 	for(i=0;i<other_task_obj.length;i++)
 	{
-		if(i==0) task+=",";
+		if(i==0&&lec.length!=0) task+=",";
 	s=(other_task_obj[i].start).replace("T", "' '");
 	s=new Date(s)
 	e=(other_task_obj[i].end).replace("T", "' '");
 	e=new Date(e)
 	task+="{'name': '"+other_task_obj[i].task+"','type':'"+other_task_obj[i].events+"','startTime':"+s.getTime()+",'targetTime':"+ e.getTime()+",'timeToComplete':'"+other_task_obj[i].time+"'}";
-	if(i!=((other_task_obj.length)-1))
+	if(i!=((other_task_obj.length)-1)&&other_task_obj.length!=0)
 		task+=",";
 	}
 	/* for(l=0;l<extra.length;l++)
@@ -392,7 +394,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 		 pass="{'sleepStartTime': '"+sl_start+"','sleepEndTime':'"+sl_end+"','travelTime':'"+trstart_time+
 			"','startDate':"+ startdate.getTime()+",'endDate':"+ enddate.getTime()+",'lectures': [" +sub+"],'tasks': ["+task+"]}"; 
 			
-		//	alert(pass);
+			//alert(pass);
 			misc=[];
 			misc.push({
 				
@@ -414,6 +416,8 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 			localStorage.setItem("extra",JSON.stringify(extra));
 			localStorage.setItem("other",JSON.stringify(other_task_obj));
 			localStorage.setItem("other_list",JSON.stringify(other_task_list));
+			localStorage.setItem("title",document.getElementById("title").value);
+			
 			
 		 	url="http://localhost:8080/Task_Scheduler/rest/CallenderResource/schedule";
 			
@@ -427,7 +431,7 @@ enddate = new Date(document.getElementById("dateend").value+' '+"23:59");
 				
 				success: function(result)
 				{
-					alert("in");
+					//alert("in");
 					localStorage.setItem("data",JSON.stringify(result));
 					localStorage.setItem("page",0);
 					document.getElementById("sch").submit();

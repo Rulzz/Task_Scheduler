@@ -22,6 +22,7 @@ public class SchedulerService {
 	
 	SimpleDateFormat dayFormat = new SimpleDateFormat("dd-M-yyyy");
 	SimpleDateFormat dayTimeFormat = new SimpleDateFormat("dd-M-yyyy HH:mm");
+	SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 	
 	private HashMap<Long, SortedSet<Slot>> dailyFreeSlots = new HashMap<>();
 	private ArrayList<Slot> schedule = new ArrayList<>();
@@ -30,7 +31,7 @@ public class SchedulerService {
 	private Date calenderEndDate;
 	
 	private int lunchTimeMin = 12;
-	private int lunchTimeMax = 3;
+	private int lunchTimeMax = 15;
 	private int dinnerTimeMin = 20;
 	private int dinnerTimeMax = 23;
 	private int lunchDuration = 1;
@@ -153,9 +154,12 @@ public class SchedulerService {
 			if(task.getType().equals(Task.TaskName.Exam)) {
 				Date examDay = DateUtils.truncate(task.getTargetTime(), Calendar.DATE);
 				SortedSet<Slot> examDayFreeSlot = dailyFreeSlots.get(examDay.getTime());
+				if(examDayFreeSlot==null) {
+					continue;
+				}
 				boolean revisionSlotFound = false;
 				Slot toSplit = new Slot();
-				for(Slot slot : examDayFreeSlot) {
+				for(Slot slot : examDayFreeSlot) { 
 					if((slot.getEndTime().before(task.getTargetTime()) || slot.getEndTime().getTime()==task.getTargetTime().getTime())
 							&& (slot.getStartTime().before(DateUtils.addHours( slot.getEndTime(), -revisionTime)) ||  slot.getStartTime().getTime()==DateUtils.addHours( slot.getEndTime(), -revisionTime).getTime())) {
 						revisionSlotFound = true;
@@ -165,7 +169,7 @@ public class SchedulerService {
 				if(revisionSlotFound) {
 					examDayFreeSlot.remove(toSplit);
 					examDayFreeSlot.add(new Slot("", toSplit.getStartTime(), DateUtils.addHours( toSplit.getEndTime(), -revisionTime)));
-					schedule.add(new Slot(Task.TaskName.Revision.name(), DateUtils.addHours( toSplit.getEndTime(), -revisionTime), toSplit.getEndTime()));
+					schedule.add(new Slot(task.getName() + "-" + Task.TaskName.Revision.name(), DateUtils.addHours( toSplit.getEndTime(), -revisionTime), toSplit.getEndTime()));
 					
 				} else {
 					messages.add("Could not allocated " + revisionTime + " hr(s) Revision task for date : " + dayFormat.format(task.getTargetTime()));
@@ -237,13 +241,14 @@ public class SchedulerService {
 			
 			schedule.add(new Slot(taskName, minTime, DateUtils.addHours( minTime, duration)));
 		} else {
-			messages.add("Could not allocate " + duration + " hr(s) to " + taskName + " on day : " + dayFormat.format(minTime));
+			messages.add("Could not allocate " + duration + " hr(s) to " + taskName + " between time : " + timeFormat.format(minTime) + " & " + timeFormat.format(maxTime) + " on day " + dayFormat.format(minTime));
 		}
 		
 	}
 
 	private void addLecturesSlots(ArrayList<Slot> lectures, String travelTime) {
 		for(Slot lecture : lectures) {
+			lecture.setName(lecture.getName() + "-Lecture");
 			SortedSet<Slot> freeSlots = dailyFreeSlots.get(DateUtils.truncate(lecture.getStartTime(), Calendar.DATE).getTime());
 			if(freeSlots == null) {
 				return;
@@ -276,21 +281,30 @@ public class SchedulerService {
 		Date day = calenderStartDate;
 		while(!day.after(calenderEndDate)) {
 			Date nextDay = DateUtils.addDays(day, 1);
-			
-			//Sleep Slots
-			Slot sleepMorningSlot = new Slot(Task.TaskName.Sleep.name(), day, helper.addStringTime(day, input.getSleepEndTime()));
-			Slot sleepNightSlot = new Slot(Task.TaskName.Sleep.name(), helper.addStringTime(day, input.getSleepStartTime()), DateUtils.addMinutes(nextDay, -1));
-			//daily chores
-			Slot dailyChoresSlot = new Slot(Task.TaskName.Chores.name(), sleepMorningSlot.getEndTime(), DateUtils.addHours(sleepMorningSlot.getEndTime(), 2));
-			schedule.add(sleepMorningSlot);
-			schedule.add(sleepNightSlot);
-			schedule.add(dailyChoresSlot);
-			
-			//create empty free slots
+			Slot sleepMorningSlot=null;
+			Slot sleepNightSlot=null;
 			SortedSet<Slot> sortedSlots = new TreeSet<Slot>();
-			Slot newSlot = new Slot("", dailyChoresSlot.getEndTime(), sleepNightSlot.getStartTime());
-			sortedSlots.add(newSlot);
-			dailyFreeSlots.put(day.getTime(), sortedSlots);
+			if(helper.addStringTime(day, input.getSleepStartTime()).after(helper.addStringTime(day, input.getSleepEndTime()))) {
+				sleepMorningSlot = new Slot(Task.TaskName.Sleep.name(), day, helper.addStringTime(day, input.getSleepEndTime()));
+				sleepNightSlot = new Slot(Task.TaskName.Sleep.name(), helper.addStringTime(day, input.getSleepStartTime()), DateUtils.addMinutes(nextDay, -1));
+				Slot dailyChoresSlot = new Slot(Task.TaskName.Chores.name(), sleepMorningSlot.getEndTime(), DateUtils.addHours(sleepMorningSlot.getEndTime(), 2));
+				schedule.add(sleepMorningSlot);
+				schedule.add(sleepNightSlot);
+				schedule.add(dailyChoresSlot);
+				Slot newSlot = new Slot("", dailyChoresSlot.getEndTime(), sleepNightSlot.getStartTime());
+				sortedSlots.add(newSlot);
+				dailyFreeSlots.put(day.getTime(), sortedSlots);
+			} else {
+				sleepMorningSlot = new Slot(Task.TaskName.Sleep.name(), helper.addStringTime(day, input.getSleepStartTime()), helper.addStringTime(day, input.getSleepEndTime()));
+				Slot dailyChoresSlot = new Slot(Task.TaskName.Chores.name(), sleepMorningSlot.getEndTime(), DateUtils.addHours(sleepMorningSlot.getEndTime(), 2));
+				schedule.add(sleepMorningSlot);
+				schedule.add(dailyChoresSlot);
+				Slot newSlotBefore = new Slot("", day, sleepMorningSlot.getStartTime());
+				Slot newSlotAfter = new Slot("", dailyChoresSlot.getEndTime(), DateUtils.addMinutes(nextDay, -1));
+				sortedSlots.add(newSlotBefore);
+				sortedSlots.add(newSlotAfter);
+				dailyFreeSlots.put(day.getTime(), sortedSlots);
+			}
 			day=nextDay;
 		}
 	}
