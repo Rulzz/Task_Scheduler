@@ -35,7 +35,7 @@ function start()
 		    '"Could not allocate 1 hr(s) to Dinner on day : 22-3-2017"]}]'; 
 		    result=JSON.parse(result);
 		    result=JSON.parse(localStorage.getItem("data"));
-	p=result[0].schedule; 
+	p=result[page].schedule; 
 	//alert(result[0].schedule[0]);
 	color=[];
 	colorindex=1;
@@ -103,9 +103,9 @@ function start()
 	//alert(localStorage.getItem("title"));
 	document.getElementById("header").innerHTML=localStorage.getItem("title"); 
 	document.getElementById("data").innerHTML=x; 
-	if((result[0].messages).length>0){
+	if((result[page].messages).length>0){
 		for(i = 0; i < result[0].messages.length; i++){
-			document.getElementById("msg").innerHTML=document.getElementById("msg").innerHTML + '<br/>' + result[0].messages[i];
+			document.getElementById("msg").innerHTML=document.getElementById("msg").innerHTML + '<br/>' + result[page].messages[i];
 		}
 		
 	}

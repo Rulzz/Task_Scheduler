@@ -345,7 +345,7 @@ z=lec[m].split("|")[4];
 			 */			 
 			}
 		if(m!=(lec.length-1)&&lec.length!=0) {
-			alert("in");
+			//alert("in");
 			sub+=",";
 		}
 		
